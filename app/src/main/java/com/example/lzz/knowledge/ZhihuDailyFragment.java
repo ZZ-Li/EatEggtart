@@ -8,6 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.lzz.knowledge.util.API;
+import com.example.lzz.knowledge.util.HttpUtil;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
 /**
  * Created by ZZ on 2018/1/12.
  */
@@ -31,6 +40,22 @@ public class ZhihuDailyFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view);
         refreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refresh_layout);
+
+
         return view;
+    }
+
+    private void requestData(){
+        HttpUtil.sendOKHttpRequest(API.ZHIHU_NEWS_LATEST, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+            }
+        });
     }
 }
