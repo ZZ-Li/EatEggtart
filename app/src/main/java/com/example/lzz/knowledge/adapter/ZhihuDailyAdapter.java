@@ -32,7 +32,6 @@ public class ZhihuDailyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public ZhihuDailyAdapter(ArrayList<ZhihuDaily.StoriesBean> list) {
         this.list = list;
-        Log.d("Knowledge","onCreateAdapter1," + this.list.size());
     }
 
     public void setItemClickListener(OnRecyclerViewOnClickListener listener){
@@ -46,7 +45,6 @@ public class ZhihuDailyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
         switch (viewType){
             case TYPE_NORMAL:
-                Log.d("Knowledge","onCreateAdapter2");
                 View view = LayoutInflater.from(context).inflate(R.layout.list_item_layout, parent, false);
                 NormalViewHolder holder = new NormalViewHolder(view, mListener);
                 return holder;
@@ -56,7 +54,6 @@ public class ZhihuDailyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Log.d("Knowledge","onCreateAdapter3");
         if (holder instanceof NormalViewHolder){
             ZhihuDaily.StoriesBean item = list.get(position);
             if (item.getImages().get(0) == null){
