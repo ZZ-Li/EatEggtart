@@ -30,16 +30,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (savedInstanceState != null){
             mainFragment = (MainFragment) getSupportFragmentManager().getFragment(savedInstanceState, "MainFragment");
-            zhihuDailyFragment = (ZhihuDailyFragment) getSupportFragmentManager().getFragment(savedInstanceState, "ZhihuDailyFragment");
         } else {
             mainFragment = MainFragment.newInstance();
-            zhihuDailyFragment = ZhihuDailyFragment.newInstance();
         }
 
 
-        if (!zhihuDailyFragment.isAdded()) {
+        if (!mainFragment.isAdded()) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.layout_fragment, zhihuDailyFragment, "ZhihuDailyFragment")
+                    .add(R.id.layout_fragment, mainFragment, "MainFragment")
                     .commit();
         }
     }
@@ -55,10 +53,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onSaveInstanceState(outState, outPersistentState);
         if (mainFragment.isAdded()){
             getSupportFragmentManager().putFragment(outState, "MainFragment", mainFragment);
-        }
-
-        if (zhihuDailyFragment.isAdded()){
-            getSupportFragmentManager().putFragment(outState, "ZhihuDailyFragment", zhihuDailyFragment);
         }
     }
 }
