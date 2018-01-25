@@ -2,6 +2,7 @@ package com.example.lzz.knowledge;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -62,31 +63,95 @@ public class ZhihuDailyFragment extends Fragment {
         refreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refresh_layout);
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
-        requestData(format.ZhihuDailyDateFormat(Calendar.getInstance().getTimeInMillis()));
+        requestData(format.ZhihuDailyDateFormat(Calendar.getInstance().getTimeInMillis()), false);
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                requestData(format.ZhihuDailyDateFormat(Calendar.getInstance().getTimeInMillis()));
+                Calendar calendar = Calendar.getInstance();
+                mYear = calendar.get(Calendar.YEAR);
+                mMonth = calendar.get(Calendar.MONTH);
+                mDay = calendar.get(Calendar.DAY_OF_MONTH);
+                calendar.set(mYear, mMonth, mDay);
+                requestData(format.ZhihuDailyDateFormat(Calendar.getInstance().getTimeInMillis()), false);
             }
         });
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            boolean isSlidingToLast = false;
+
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                LinearLayoutManager manager = (LinearLayoutManager)recyclerView.getLayoutManager();
+                if (newState == RecyclerView.SCROLL_STATE_IDLE){
+                    int lastVisibleItem = manager.findLastCompletelyVisibleItemPosition();
+                    int totalItemCount = manager.getItemCount();
+
+                    if (lastVisibleItem == (totalItemCount - 1) && isSlidingToLast){
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(mYear, mMonth, --mDay);
+                        requestData(format.ZhihuDailyDateFormat(calendar.getTimeInMillis()), true);
+                    }
+                }
                 super.onScrollStateChanged(recyclerView, newState);
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                isSlidingToLast = dy > 0;
             }
         });
 
         return view;
     }
 
-    private void requestData(String date){
+    private void requestData(String date, final boolean isLoadMore){
+        refreshLayout.setRefreshing(true);
+        HttpUtil.sendOKHttpRequest(API.ZHIHU_HISTORY + date, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), "加载失败", Toast.LENGTH_SHORT).show();
+                        refreshLayout.setRefreshing(false);
+
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String responseStr = response.body().string();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ZhihuDaily zhihuDaily = gson.fromJson(responseStr, ZhihuDaily.class);
+                        if (!isLoadMore){
+                            if (list == null){
+                                for (ZhihuDaily.StoriesBean item : zhihuDaily.getStories())
+                                    list.add(item);
+                            } else {
+                                list.clear();
+                                for (ZhihuDaily.StoriesBean item : zhihuDaily.getStories())
+                                    list.add(item);
+                            }
+                            adapter = new ZhihuDailyAdapter(list);
+                            recyclerView.setAdapter(adapter);
+                        } else {
+                            for (ZhihuDaily.StoriesBean item : zhihuDaily.getStories())
+                                list.add(item);
+                            adapter.notifyDataSetChanged();
+                        }
+                        refreshLayout.setRefreshing(false);
+                    }
+                });
+            }
+        });
+    }
+
+    private void loadMore(String date){
         refreshLayout.setRefreshing(true);
         HttpUtil.sendOKHttpRequest(API.ZHIHU_HISTORY + date, new Callback() {
             @Override
@@ -109,8 +174,7 @@ public class ZhihuDailyFragment extends Fragment {
                         ZhihuDaily zhihuDaily = gson.fromJson(responseStr, ZhihuDaily.class);
                         for (ZhihuDaily.StoriesBean item : zhihuDaily.getStories()){
                             list.add(item);
-                            adapter = new ZhihuDailyAdapter(list);
-                            recyclerView.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
                             refreshLayout.setRefreshing(false);
                         }
                     }
@@ -118,6 +182,5 @@ public class ZhihuDailyFragment extends Fragment {
             }
         });
     }
-
 
 }

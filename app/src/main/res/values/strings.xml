@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">蛋挞</string>
+
     <string name="nav_home">首页</string>
+    <string name="nav_image">妹纸</string>
     <string name="nav_bookmarks">收藏</string>
     <string name="nav_about">关于</string>
     <string name="nav_settings">设置</string>
+
     <string name="zhihu_daily">知乎日报</string>
     <string name="buzhidao">不知道</string>
 </resources>

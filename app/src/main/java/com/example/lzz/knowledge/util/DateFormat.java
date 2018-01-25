@@ -15,7 +15,7 @@ public class DateFormat {
      * @return String date
      */
     public String ZhihuDailyDateFormat(long date){
-        Date d = new Date();
+        Date d = new Date(date + 24*60*60*1000);
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         return format.format(d);
     }
