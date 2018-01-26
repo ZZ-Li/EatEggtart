@@ -3,7 +3,7 @@ package com.example.lzz.knowledge.bean;
 import java.util.ArrayList;
 
 /**
- * Created by ZZ on 2018/1/18.
+ * Created by ASUS on 2018/1/18.
  */
 
 public class ZhihuDaily {

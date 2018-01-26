@@ -2,7 +2,6 @@ package com.example.lzz.knowledge.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.lzz.knowledge.OnRecyclerViewOnClickListener;
+import com.example.lzz.knowledge.interfa.OnRecyclerViewOnClickListener;
 import com.example.lzz.knowledge.R;
 import com.example.lzz.knowledge.bean.ZhihuDaily;
 
@@ -30,7 +29,7 @@ public class ZhihuDailyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private List<ZhihuDaily.StoriesBean> list;
     private OnRecyclerViewOnClickListener mListener;
 
-    public ZhihuDailyAdapter(ArrayList<ZhihuDaily.StoriesBean> list) {
+    public ZhihuDailyAdapter(List<ZhihuDaily.StoriesBean> list) {
         this.list = list;
     }
 
@@ -63,6 +62,7 @@ public class ZhihuDailyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         .load(item.getImages().get(0))
                         .asBitmap()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .error(R.drawable.nav_header_image)
                         .centerCrop()
                         .into(((NormalViewHolder) holder).imageView);
             }

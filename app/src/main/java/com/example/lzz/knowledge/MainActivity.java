@@ -3,13 +3,15 @@ package com.example.lzz.knowledge;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+
+import com.example.lzz.knowledge.home.MainFragment;
+import com.example.lzz.knowledge.home.MeizhiFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -45,11 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .add(R.id.layout_fragment, mainFragment, "MainFragment")
                     .commit();
         }
-        if (!meizhiFragment.isAdded()){
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.layout_fragment, meizhiFragment, "MeizhiFragment")
-                    .commit();
-        }
+
     }
 
     @Override
@@ -73,9 +71,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void showMeizhiFragment(){
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.hide(mainFragment);
-        fragmentTransaction.show(meizhiFragment);
-        fragmentTransaction.commit();
+        if (!meizhiFragment.isAdded()){
+            fragmentTransaction
+                    .add(R.id.layout_fragment, meizhiFragment, "MeizhiFragment")
+                    .hide(mainFragment)
+                    .show(meizhiFragment)
+                    .commit();
+        } else {
+            fragmentTransaction
+                    .hide(mainFragment)
+                    .show(meizhiFragment)
+                    .commit();
+        }
         toolbar.setTitle(getResources().getString(R.string.nav_image));
     }
 

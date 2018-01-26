@@ -7,7 +7,7 @@
             android:title="@string/nav_home" />
         <item
             android:id="@+id/nav_image"
-            android:icon="@drawable/ic_image_balck_24dp"
+            android:icon="@drawable/ic_image_black_24dp"
             android:title="@string/nav_image" />
         <item
             android:id="@+id/nav_bookmarks"

@@ -4,11 +4,10 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.View;
 
-import com.example.lzz.knowledge.AnotherFragment;
+import com.example.lzz.knowledge.home.AnotherFragment;
 import com.example.lzz.knowledge.R;
-import com.example.lzz.knowledge.ZhihuDailyFragment;
+import com.example.lzz.knowledge.home.ZhihuDailyFragment;
 
 /**
  * Created by ASUS on 2018/1/24.

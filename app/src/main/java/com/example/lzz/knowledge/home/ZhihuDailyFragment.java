@@ -1,8 +1,7 @@
-package com.example.lzz.knowledge;
+package com.example.lzz.knowledge.home;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.lzz.knowledge.R;
 import com.example.lzz.knowledge.adapter.ZhihuDailyAdapter;
 import com.example.lzz.knowledge.bean.ZhihuDaily;
 import com.example.lzz.knowledge.util.API;
@@ -21,13 +21,14 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
 /**
- * Created by ZZ on 2018/1/12.
+ * Created by ASUS on 2018/1/12.
  */
 
 public class ZhihuDailyFragment extends Fragment {
@@ -36,7 +37,7 @@ public class ZhihuDailyFragment extends Fragment {
     private SwipeRefreshLayout refreshLayout;
     private ZhihuDailyAdapter adapter;
 
-    private ArrayList<ZhihuDaily.StoriesBean> list = new ArrayList<ZhihuDaily.StoriesBean>();
+    private List<ZhihuDaily.StoriesBean> list = new ArrayList<ZhihuDaily.StoriesBean>();
 
     private DateFormat format = new DateFormat();
     private Gson gson = new Gson();
@@ -129,20 +130,28 @@ public class ZhihuDailyFragment extends Fragment {
                     public void run() {
                         ZhihuDaily zhihuDaily = gson.fromJson(responseStr, ZhihuDaily.class);
                         if (!isLoadMore){
+
                             if (list == null){
+
                                 for (ZhihuDaily.StoriesBean item : zhihuDaily.getStories())
                                     list.add(item);
+
                             } else {
+
                                 list.clear();
                                 for (ZhihuDaily.StoriesBean item : zhihuDaily.getStories())
                                     list.add(item);
+
                             }
                             adapter = new ZhihuDailyAdapter(list);
                             recyclerView.setAdapter(adapter);
+
                         } else {
+
                             for (ZhihuDaily.StoriesBean item : zhihuDaily.getStories())
                                 list.add(item);
                             adapter.notifyDataSetChanged();
+
                         }
                         refreshLayout.setRefreshing(false);
                     }
