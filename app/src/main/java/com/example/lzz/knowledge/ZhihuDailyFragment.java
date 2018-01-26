@@ -151,36 +151,4 @@ public class ZhihuDailyFragment extends Fragment {
         });
     }
 
-    private void loadMore(String date){
-        refreshLayout.setRefreshing(true);
-        HttpUtil.sendOKHttpRequest(API.ZHIHU_HISTORY + date, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getActivity(), "加载失败", Toast.LENGTH_SHORT).show();
-                        refreshLayout.setRefreshing(false);
-                    }
-                });
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String responseStr = response.body().string();
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ZhihuDaily zhihuDaily = gson.fromJson(responseStr, ZhihuDaily.class);
-                        for (ZhihuDaily.StoriesBean item : zhihuDaily.getStories()){
-                            list.add(item);
-                            adapter.notifyDataSetChanged();
-                            refreshLayout.setRefreshing(false);
-                        }
-                    }
-                });
-            }
-        });
-    }
-
 }

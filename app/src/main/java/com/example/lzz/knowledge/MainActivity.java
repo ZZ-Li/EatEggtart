@@ -3,6 +3,8 @@ package com.example.lzz.knowledge;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,15 +13,17 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
+    private Toolbar toolbar;
+
     private DrawerLayout drawerLayout;
     private MainFragment mainFragment;
-    private ZhihuDailyFragment zhihuDailyFragment;
+    private MeizhiFragment meizhiFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -30,14 +34,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (savedInstanceState != null){
             mainFragment = (MainFragment) getSupportFragmentManager().getFragment(savedInstanceState, "MainFragment");
+            meizhiFragment = (MeizhiFragment)getSupportFragmentManager().getFragment(savedInstanceState, "MeizhiFrament");
         } else {
             mainFragment = MainFragment.newInstance();
+            meizhiFragment = MeizhiFragment.newInstance();
         }
-
 
         if (!mainFragment.isAdded()) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.layout_fragment, mainFragment, "MainFragment")
+                    .commit();
+        }
+        if (!meizhiFragment.isAdded()){
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.layout_fragment, meizhiFragment, "MeizhiFragment")
                     .commit();
         }
     }
@@ -45,7 +55,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         drawerLayout.closeDrawers();
+        if (item.getItemId() == R.id.nav_home){
+            showMainFragment();
+        } else if (item.getItemId() == R.id.nav_image){
+            showMeizhiFragment();
+        }
         return true;
+    }
+
+    private void showMainFragment(){
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.hide(meizhiFragment);
+        fragmentTransaction.show(mainFragment);
+        fragmentTransaction.commit();
+        toolbar.setTitle(getResources().getString(R.string.app_name));
+    }
+
+    private void showMeizhiFragment(){
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.hide(mainFragment);
+        fragmentTransaction.show(meizhiFragment);
+        fragmentTransaction.commit();
+        toolbar.setTitle(getResources().getString(R.string.nav_image));
     }
 
     @Override
@@ -53,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onSaveInstanceState(outState, outPersistentState);
         if (mainFragment.isAdded()){
             getSupportFragmentManager().putFragment(outState, "MainFragment", mainFragment);
+        }
+        if (meizhiFragment.isAdded()){
+            getSupportFragmentManager().putFragment(outState, "MeizhiFragment", meizhiFragment);
         }
     }
 }
