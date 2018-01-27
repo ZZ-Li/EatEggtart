@@ -12,6 +12,7 @@
         android:id="@+id/meizhi_image_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
         android:gravity="center"
         android:padding="4dp"
         tools:background="@drawable/nav_header_image"/>
