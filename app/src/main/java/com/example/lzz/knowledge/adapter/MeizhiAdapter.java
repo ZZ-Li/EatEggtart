@@ -74,6 +74,7 @@ public class MeizhiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             imageView = (ImageView)itemView.findViewById(R.id.meizhi_image_view);
             this.listener = listener;
             itemView.setOnClickListener(this);
+
         }
 
         @Override
