@@ -1,14 +1,21 @@
 package com.example.lzz.knowledge.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.example.lzz.knowledge.R;
 import com.example.lzz.knowledge.bean.Meizhi;
@@ -46,13 +53,43 @@ public class MeizhiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        Meizhi.ResultsBean item = list.get(position);
+        final ImageView imageView = ((ViewHolder) holder).imageView;
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(dm);
+        final int mWidth = dm.widthPixels / 2;
+
         if (holder instanceof ViewHolder){
-            Meizhi.ResultsBean item = list.get(position);
             Glide.with(context)
                     .load(item.getUrl())
                     .asBitmap()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                    .listener(new RequestListener<String, Bitmap>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            int width = resource.getWidth();
+                            int height = resource.getHeight();
+                            float scale = (float)width / (float) mWidth;
+                            int mHeight = (int)(height * scale);
+                            ViewGroup.LayoutParams params = imageView.getLayoutParams();
+                            if (width > mWidth){
+                                params.width = mWidth;
+                                params.height = mHeight;
+                            } else {
+                                params.width = width;
+                                params.height = height;
+                            }
+                            imageView.setLayoutParams(params);
+                            return false;
+                        }
+                    })
+                    .thumbnail(0.5f)
                     .error(R.drawable.nav_header_image)
                     .into(((ViewHolder) holder).imageView);
         }
