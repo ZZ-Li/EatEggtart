@@ -111,7 +111,9 @@ public class ZhihuDailyFragment extends Fragment {
     }
 
     private void requestData(String date, final boolean isLoadMore){
-        refreshLayout.setRefreshing(true);
+        if (!isLoadMore){
+            refreshLayout.setRefreshing(true);
+        }
         HttpUtil.sendOKHttpRequest(API.ZHIHU_HISTORY + date, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -156,7 +158,7 @@ public class ZhihuDailyFragment extends Fragment {
                                 }
                             });
                             recyclerView.setAdapter(adapter);
-
+                            refreshLayout.setRefreshing(false);
                         } else {
 
                             for (ZhihuDaily.StoriesBean item : zhihuDaily.getStories())
@@ -164,7 +166,7 @@ public class ZhihuDailyFragment extends Fragment {
                             adapter.notifyDataSetChanged();
 
                         }
-                        refreshLayout.setRefreshing(false);
+
                     }
                 });
             }

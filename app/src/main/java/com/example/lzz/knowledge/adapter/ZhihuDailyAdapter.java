@@ -44,9 +44,13 @@ public class ZhihuDailyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
         switch (viewType){
             case TYPE_NORMAL:
-                View view = LayoutInflater.from(context).inflate(R.layout.list_item_layout, parent, false);
+                View view = LayoutInflater.from(context)
+                        .inflate(R.layout.list_item_layout, parent, false);
                 NormalViewHolder holder = new NormalViewHolder(view, mListener);
                 return holder;
+            case TYPE_FOOTER:
+                return new FootViewHolder(LayoutInflater.from(context)
+                        .inflate(R.layout.list_footer_layout, parent, false));
         }
        return null;
     }
@@ -77,11 +81,11 @@ public class ZhihuDailyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-//        if (position == list.size()){
-//            return TYPE_FOOTER;
-//        }
-//        return TYPE_NORMAL;
+        if (position == list.size() - 1){
+            return TYPE_FOOTER;
+        }
         return TYPE_NORMAL;
+        //return TYPE_NORMAL;
     }
 
     static class NormalViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -103,6 +107,12 @@ public class ZhihuDailyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             if (listener != null){
                 listener.OnItemClick(v, getLayoutPosition());
             }
+        }
+    }
+
+    static class FootViewHolder extends RecyclerView.ViewHolder{
+        public FootViewHolder(View itemView) {
+            super(itemView);
         }
     }
 }
