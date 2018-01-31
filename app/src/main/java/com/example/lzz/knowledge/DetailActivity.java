@@ -33,12 +33,8 @@ public class DetailActivity extends AppCompatActivity {
         toolbar = (Toolbar)findViewById(R.id.detail_tool_bar);
         setSupportActionBar(toolbar);
         webView = (WebView)findViewById(R.id.web_view);
-        Intent intent = getIntent();
-        //String id = intent.getStringExtra("id");
-        int id = intent.getIntExtra("id", 0);
 
         requestData(getIntent().getIntExtra("id", 0));
-
     }
 
     private void requestData(int id){
