@@ -15,13 +15,13 @@ import com.example.lzz.knowledge.R;
  * Created by ASUS on 2018/1/24.
  */
 
-public class AnotherFragment extends Fragment {
+public class GankFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout refreshLayout;
 
-    public static AnotherFragment newInstance(){
-        return new AnotherFragment();
+    public static GankFragment newInstance(){
+        return new GankFragment();
     }
 
     @Override
@@ -32,7 +32,7 @@ public class AnotherFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_another, container, false);
+        View view = inflater.inflate(R.layout.fragment_list, container, false);
         return view;
     }
 }

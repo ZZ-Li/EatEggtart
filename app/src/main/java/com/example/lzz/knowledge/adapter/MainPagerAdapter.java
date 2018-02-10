@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.lzz.knowledge.home.AnotherFragment;
+import com.example.lzz.knowledge.home.GankFragment;
 import com.example.lzz.knowledge.R;
 import com.example.lzz.knowledge.home.ZhihuDailyFragment;
 
@@ -19,15 +19,15 @@ public class MainPagerAdapter extends FragmentPagerAdapter{
     private Context context;
 
     private ZhihuDailyFragment zhihuDailyFragment;
-    private AnotherFragment anotherFragment;
+    private GankFragment gankFragment;
 
     public MainPagerAdapter(FragmentManager fm, Context context,
                             ZhihuDailyFragment zhihuDailyFragment,
-                            AnotherFragment anotherFragment) {
+                            GankFragment gankFragment) {
         super(fm);
         this.context = context;
         this.zhihuDailyFragment = zhihuDailyFragment;
-        this.anotherFragment = anotherFragment;
+        this.gankFragment = gankFragment;
         titles = new String[] {
                 context.getResources().getString(R.string.zhihu_daily),
                 context.getResources().getString(R.string.buzhidao)};
@@ -36,7 +36,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter{
     @Override
     public Fragment getItem(int position) {
         if (position == 1){
-            return anotherFragment;
+            return gankFragment;
         } else {
             return zhihuDailyFragment;
         }
