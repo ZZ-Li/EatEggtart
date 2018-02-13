@@ -161,6 +161,7 @@ public class ZhihuDailyFragment extends Fragment {
                             refreshLayout.setRefreshing(false);
                         } else {
 
+
                             for (ZhihuDaily.StoriesBean item : zhihuDaily.getStories())
                                 list.add(item);
                             adapter.notifyDataSetChanged();
