@@ -35,5 +35,4 @@ public class GankFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         return view;
     }
-
 }
