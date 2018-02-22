@@ -110,6 +110,7 @@ public class ZhihuDailyFragment extends Fragment {
         return view;
     }
 
+
     private void requestData(String date, final boolean isLoadMore){
         if (!isLoadMore){
             refreshLayout.setRefreshing(true);
