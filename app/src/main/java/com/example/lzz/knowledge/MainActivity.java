@@ -35,10 +35,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (savedInstanceState != null){
             mainFragment = (MainFragment) getSupportFragmentManager().getFragment(savedInstanceState, "MainFragment");
-            meizhiFragment = (MeizhiFragment)getSupportFragmentManager().getFragment(savedInstanceState, "MeizhiFrament");
+//            meizhiFragment = (MeizhiFragment)getSupportFragmentManager().getFragment(savedInstanceState, "MeizhiFrament");
         } else {
             mainFragment = MainFragment.newInstance();
-            meizhiFragment = MeizhiFragment.newInstance();
+//            meizhiFragment = MeizhiFragment.newInstance();
         }
 
         if (!mainFragment.isAdded()) {
@@ -54,9 +54,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawers();
         if (item.getItemId() == R.id.nav_home){
             showMainFragment();
-        } else if (item.getItemId() == R.id.nav_image){
-            showMeizhiFragment();
         }
+//        else if (item.getItemId() == R.id.nav_image){
+//            showMeizhiFragment();
+//        }
         return true;
     }
 
@@ -91,8 +92,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (mainFragment.isAdded()){
             getSupportFragmentManager().putFragment(outState, "MainFragment", mainFragment);
         }
-        if (meizhiFragment.isAdded()){
-            getSupportFragmentManager().putFragment(outState, "MeizhiFragment", meizhiFragment);
-        }
+//        if (meizhiFragment.isAdded()){
+//            getSupportFragmentManager().putFragment(outState, "MeizhiFragment", meizhiFragment);
+//        }
     }
 }

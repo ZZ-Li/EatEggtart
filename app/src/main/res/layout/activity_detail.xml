@@ -21,10 +21,20 @@
             app:layout_scrollFlags="scroll|enterAlways|snap"/>
     </android.support.design.widget.AppBarLayout>
 
-    <WebView
-        android:id="@+id/web_view"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?actionBarSize"/>
+        android:id="@+id/scrollView"
+        android:scrollbars="vertical"
+        android:scrollbarFadeDuration="1"
+        android:fadeScrollbars="true">
+
+        <WebView
+            android:id="@+id/web_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?actionBarSize"/>
+    </android.support.v4.widget.NestedScrollView>
+
 
 </android.support.constraint.ConstraintLayout>
