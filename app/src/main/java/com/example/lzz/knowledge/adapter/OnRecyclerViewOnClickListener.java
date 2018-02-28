@@ -1,4 +1,4 @@
-package com.example.lzz.knowledge.interfa;
+package com.example.lzz.knowledge.adapter;
 
 import android.view.View;
 

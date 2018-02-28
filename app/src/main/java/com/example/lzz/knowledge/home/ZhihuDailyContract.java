@@ -1,7 +1,7 @@
 package com.example.lzz.knowledge.home;
 
-import com.example.lzz.knowledge.BasePresenter;
-import com.example.lzz.knowledge.BaseView;
+import com.example.lzz.knowledge.base.BasePresenter;
+import com.example.lzz.knowledge.base.BaseView;
 import com.example.lzz.knowledge.bean.ZhihuDaily;
 
 import java.util.ArrayList;

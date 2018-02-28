@@ -1,4 +1,4 @@
-package com.example.lzz.knowledge;
+package com.example.lzz.knowledge.home;
 
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.example.lzz.knowledge.R;
 import com.example.lzz.knowledge.home.MainFragment;
 import com.example.lzz.knowledge.home.MeizhiFragment;
 

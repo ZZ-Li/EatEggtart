@@ -11,11 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.lzz.knowledge.DetailActivity;
 import com.example.lzz.knowledge.R;
 import com.example.lzz.knowledge.adapter.ZhihuDailyAdapter;
 import com.example.lzz.knowledge.bean.ZhihuDaily;
-import com.example.lzz.knowledge.interfa.OnRecyclerViewOnClickListener;
+import com.example.lzz.knowledge.adapter.OnRecyclerViewOnClickListener;
 import com.example.lzz.knowledge.util.API;
 import com.example.lzz.knowledge.util.DateFormat;
 import com.example.lzz.knowledge.util.HttpUtil;
@@ -155,6 +154,7 @@ public class ZhihuDailyFragment extends Fragment {
                                 public void OnItemClick(View v, int position) {
                                     Intent intent = new Intent(getActivity(), DetailActivity.class);
                                     intent.putExtra("id", list.get(position).getId());
+                                    intent.putExtra("title", list.get(position).getTitle());
                                     startActivity(intent);
                                 }
                             });
