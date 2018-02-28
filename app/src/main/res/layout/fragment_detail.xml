@@ -13,6 +13,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/collapsing_toolbar_layout"
             android:fitsSystemWindows="true"
             app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -20,7 +21,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/image_view"
+                android:id="@+id/detail_image_view"
                 android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"
                 android:scrollbarStyle="insideInset"

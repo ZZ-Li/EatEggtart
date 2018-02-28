@@ -11,19 +11,19 @@ import com.example.lzz.knowledge.base.BaseView;
 
 public interface DetailContract {
 
-    interface View extends BaseView<Persenter> {
+    interface View extends BaseView<Presenter> {
 
         void showLoading();
 
         void stopLoading();
 
-        void showLoadingError();
-
-        void showSharingError();
-
         void showResult(String result);
 
         void showResultWithoutBody(String url);
+
+        void showLoadingError();
+
+        void showSharingError();
 
         void showCover(String url);
 
@@ -42,13 +42,15 @@ public interface DetailContract {
         void showDeletedFromBookmarks();
     }
 
-    interface Persenter extends BasePresenter {
+    interface Presenter extends BasePresenter {
+
+        void requestData();
+
+        void openUrl(WebView webView, String url);
 
         void openInBrowser();
 
         void shareAsText();
-
-        void openUrl(WebView webView, String url);
 
         void copyText();
 
@@ -58,6 +60,5 @@ public interface DetailContract {
 
         boolean queryIfIsBookmarks();
 
-        void requestData();
     }
 }

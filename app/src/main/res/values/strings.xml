@@ -10,6 +10,22 @@
     <string name="zhihu_daily">知乎日报</string>
     <string name="buzhidao">不知道</string>
 
-    <string name="load_more">正在努力加载...</string>
+    <string name="loading_more">正在努力加载...</string>
+    <string name="loaded_failed">加载失败!</string>
+    <string name="no_browser_found">没有安装浏览器</string>
+    <string name="retry">重试</string>
+    <string name="copied_to_clipboard">复制成功</string>
+    <string name="copied_to_clipboard_failed">复制失败</string>
+    <string name="added_to_bookmarks">已添加到收藏</string>
+    <string name="deleted_from_bookmarks">已从收藏中删除</string>
+
+    <string name="action_add_to_bookmarks">添加到收藏</string>
+    <string name="action_delete_from_bookmarks">取消收藏</string>
+    <string name="action_copy_link">复制链接</string>
+    <string name="action_open_in_browser">在浏览器中打开</string>
+    <string name="action_copy_text">复制内容文本</string>
+    <string name="action_share_as_text">作为文本分享</string>
+    <string name="share_error">分享失败</string>
+
 
 </resources>

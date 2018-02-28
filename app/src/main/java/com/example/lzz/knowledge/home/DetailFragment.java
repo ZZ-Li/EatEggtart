@@ -1,21 +1,29 @@
 package com.example.lzz.knowledge.home;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.lzz.knowledge.R;
 import com.example.lzz.knowledge.bean.ZhihuDailyStory;
 import com.example.lzz.knowledge.util.API;
 import com.example.lzz.knowledge.util.HttpUtil;
-import com.google.gson.Gson;
 
 import java.io.IOException;
 
@@ -29,85 +37,45 @@ import okhttp3.Response;
 
 public class DetailFragment extends Fragment implements DetailContract.View{
 
+    private Context context;
+    private DetailContract.Presenter presenter;
+
+    private SwipeRefreshLayout refreshLayout;
+    private CollapsingToolbarLayout toolbarLayout;
+    private NestedScrollView scrollView;
+    private ImageView imageView;
+    private WebView webView;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        context = getContext();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        toolbar = (Toolbar)findViewById(R.id.detail_tool_bar);
-        setSupportActionBar(toolbar);
-        webView = (WebView)findViewById(R.id.web_view);
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
+       View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
-    private Toolbar toolbar;
-    private WebView webView;
+       initViews(view);
 
-    private Gson gson = new Gson();
+       presenter.requestData();
 
+       view.findViewById(R.id.detail_tool_bar).setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               scrollView.smoothScrollTo(0, 0);
+           }
+       });
 
-    private void requestData(int id){
-        HttpUtil.sendOKHttpRequest(API.ZHIHU_NEWS_DETAIL + id, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
+       refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+           @Override
+           public void onRefresh() {
+               presenter.requestData();
+           }
+       });
 
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String responseStr = response.body().string();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ZhihuDailyStory story = gson.fromJson(responseStr ,ZhihuDailyStory.class);
-                        webView.getSettings().setJavaScriptEnabled(true);
-                        webView.setWebViewClient(new WebViewClient());
-                        webView.loadDataWithBaseURL("x-data://base",convertZhihuContent(story.getBody()),"text/html","utf-8",null);
-
-                    }
-                });
-
-            }
-        });
-
-    }
-
-    private String convertZhihuContent(String preResult) {
-
-        preResult = preResult.replace("<div class=\"img-place-holder\">", "");
-        preResult = preResult.replace("<div class=\"headline\">", "");
-
-        // 在api中，css的地址是以一个数组的形式给出，这里需要设置
-        // in fact,in api,css addresses are given as an array
-        // api中还有js的部分，这里不再解析js
-        // javascript is included,but here I don't use it
-        // 不再选择加载网络css，而是加载本地assets文件夹中的css
-        // use the css file from local assets folder,not from network
-        String css = "<link rel=\"stylesheet\" href=\"file:///android_asset/zhihu_daily.css\" type=\"text/css\">";
-
-
-        // 根据主题的不同确定不同的加载内容
-        // load content judging by different theme
-        String theme = "<body className=\"\" onload=\"onLoaded()\">";
-        if ((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)
-                == Configuration.UI_MODE_NIGHT_YES){
-            theme = "<body className=\"\" onload=\"onLoaded()\" class=\"night\">";
-        }
-
-        return new StringBuilder()
-                .append("<!DOCTYPE html>\n")
-                .append("<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\">\n")
-                .append("<head>\n")
-                .append("\t<meta charset=\"utf-8\" />")
-                .append(css)
-                .append("\n</head>\n")
-                .append(theme)
-                .append(preResult)
-                .append("</body></html>").toString();
+        return view;
     }
 
     public DetailFragment() {
@@ -115,82 +83,134 @@ public class DetailFragment extends Fragment implements DetailContract.View{
     }
 
     @Override
-    public void setPresenter(DetailContract.Persenter presenter) {
+    public void initViews(View view) {
+        refreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refresh_layout);
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
+        DetailActivity activity = (DetailActivity)getActivity();
+        activity.setSupportActionBar((Toolbar) view.findViewById(R.id.detail_tool_bar));
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        imageView = (ImageView)view.findViewById(R.id.detail_image_view);
+        scrollView = (NestedScrollView)view.findViewById(R.id.scrollView);
+        toolbarLayout = (CollapsingToolbarLayout)view.findViewById(R.id.collapsing_toolbar_layout);
+
+        webView = (WebView)view.findViewById(R.id.web_view);
+        webView.setScrollbarFadingEnabled(true);
+        webView.getSettings().setJavaScriptEnabled(true);
+        // 缩放，设置为不可缩放
+        webView.getSettings().setBuiltInZoomControls(false);
+        // 缓存
+        webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        // 开启DOM storage API功能
+        webView.getSettings().setDomStorageEnabled(true);
+        // 开启application Cache功能
+        webView.getSettings().setAppCacheEnabled(false);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                presenter.openUrl(view, url);
+                return true;
+            }
+        });
     }
 
     @Override
-    public void initViews(View view) {
-
+    public void setPresenter(DetailContract.Presenter presenter) {
+        if (presenter != null){
+            this.presenter = presenter;
+        }
     }
+
 
     @Override
     public void showLoading() {
-
+        refreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout.setRefreshing(true);
+            }
+        });
     }
 
     @Override
     public void stopLoading() {
-
-    }
-
-    @Override
-    public void showLoadingError() {
-
-    }
-
-    @Override
-    public void showSharingError() {
-
+        refreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override
     public void showResult(String result) {
-
+        webView.loadDataWithBaseURL("x-data://base",result,"text/html",
+                "utf-8",null);
     }
 
     @Override
     public void showResultWithoutBody(String url) {
+        webView.loadUrl(url);
+    }
 
+    @Override
+    public void showLoadingError() {
+        Snackbar.make(imageView, R.string.loaded_failed, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.retry, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        presenter.requestData();
+                    }
+                }).show();
+    }
+
+    @Override
+    public void showSharingError() {
+        Toast.makeText(context, R.string.share_error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showCover(String url) {
-
+        Glide.with(context)
+                .load(url)
+                .asBitmap()
+                .centerCrop()
+                .into(imageView);
     }
 
     @Override
     public void setTitle(String title) {
-
+        toolbarLayout.setTitle(title);
     }
 
     @Override
     public void setImageMode(boolean showImage) {
-
+        webView.getSettings().setBlockNetworkImage(showImage);
     }
 
     @Override
     public void showBrowserNotFoundError() {
-
+        Toast.makeText(context, R.string.no_browser_found, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showTextCopied() {
-
+        Toast.makeText(context, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showCopyTextError() {
-
+        Toast.makeText(context, R.string.copied_to_clipboard_failed, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showAddedToBookmarks() {
-
+        Toast.makeText(context, R.string.added_to_bookmarks, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showDeletedFromBookmarks() {
-
+        Toast.makeText(context, R.string.deleted_from_bookmarks, Toast.LENGTH_SHORT).show();
     }
 }
