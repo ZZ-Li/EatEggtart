@@ -19,6 +19,7 @@
     <string name="added_to_bookmarks">已添加到收藏</string>
     <string name="deleted_from_bookmarks">已从收藏中删除</string>
 
+    <string name="refresh">刷新</string>
     <string name="action_add_to_bookmarks">添加到收藏</string>
     <string name="action_delete_from_bookmarks">取消收藏</string>
     <string name="action_copy_link">复制链接</string>
@@ -26,6 +27,10 @@
     <string name="action_copy_text">复制内容文本</string>
     <string name="action_share_as_text">作为文本分享</string>
     <string name="share_error">分享失败</string>
+    <string name="share_extra"> 分享自 蛋挞</string>
+    <string name="share_to">分享至</string>
+
+    <string name="network_error">网络走丢了…点击重试</string>
 
 
 </resources>

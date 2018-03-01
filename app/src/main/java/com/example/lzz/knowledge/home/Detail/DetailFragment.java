@@ -1,9 +1,9 @@
-package com.example.lzz.knowledge.home;
+package com.example.lzz.knowledge.home.Detail;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -11,25 +11,20 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.lzz.knowledge.R;
-import com.example.lzz.knowledge.bean.ZhihuDailyStory;
-import com.example.lzz.knowledge.util.API;
-import com.example.lzz.knowledge.util.HttpUtil;
-
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 /**
  * Created by ASUS on 2018/2/28.
@@ -58,6 +53,8 @@ public class DetailFragment extends Fragment implements DetailContract.View{
        View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
        initViews(view);
+
+       setHasOptionsMenu(true);
 
        presenter.requestData();
 
@@ -122,6 +119,65 @@ public class DetailFragment extends Fragment implements DetailContract.View{
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_more, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home){
+            getActivity().onBackPressed();
+        } else if (id == R.id.action_more){
+            final BottomSheetDialog dialog = new BottomSheetDialog(getActivity());
+            View view = getActivity().getLayoutInflater().inflate(R.layout.reading_action_sheet, null);
+
+            if (presenter.queryIfIsBookmarks()){
+                ((TextView)view.findViewById(R.id.bottom_sheet_bookmark_tv))
+                        .setText(R.string.action_delete_from_bookmarks);
+                ((ImageView)view.findViewById(R.id.bottom_sheet_bookmark_iv))
+                        .setColorFilter(getContext().getResources().getColor(R.color.colorPrimary));
+            }
+
+            view.findViewById(R.id.layout_bookmark).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    presenter.addToOrDeleteFromBookmarks();
+                }
+            });
+
+            view.findViewById(R.id.layout_copy_link).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    presenter.copyLink();
+                }
+            });
+
+            view.findViewById(R.id.layout_open_in_browser).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    presenter.openInBrowser();
+                }
+            });
+
+            view.findViewById(R.id.layout_share_text).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    presenter.shareAsText();
+                }
+            });
+
+            dialog.setContentView(view);
+            dialog.show();
+        }
+        return true;
+    }
 
     @Override
     public void showLoading() {
@@ -182,6 +238,8 @@ public class DetailFragment extends Fragment implements DetailContract.View{
     @Override
     public void setTitle(String title) {
         toolbarLayout.setTitle(title);
+        toolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
+        toolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.lzz.knowledge.util;
+package com.example.lzz.knowledge.tool;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,7 +7,7 @@ import java.util.Date;
  * Created by ASUS on 2018/1/25.
  */
 
-public class DateFormat {
+public class DateFormatTool {
 
     /**
      * 将long类date转换为String类型

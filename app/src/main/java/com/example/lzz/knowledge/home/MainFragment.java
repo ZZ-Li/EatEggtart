@@ -21,13 +21,14 @@ import com.example.lzz.knowledge.adapter.MainPagerAdapter;
 
 public class MainFragment extends Fragment{
 
-    private ZhihuDailyFragment zhihuDailyFragment;
-    private GankFragment gankFragment;
-
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private MainPagerAdapter adapter;
-    private FloatingActionButton fab;
+
+    private ZhihuDailyFragment zhihuDailyFragment;
+    private GankFragment gankFragment;
+
+    private ZhihuDailyPresenter zhihuDailyPresenter;
 
     public static MainFragment newInstance(){
         return new MainFragment();
@@ -38,12 +39,14 @@ public class MainFragment extends Fragment{
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null){
             FragmentManager manager = getChildFragmentManager();
-            zhihuDailyFragment = (ZhihuDailyFragment)manager.getFragment(savedInstanceState, "zhihudaily");
+            zhihuDailyFragment = (ZhihuDailyFragment)manager.getFragment(savedInstanceState, "zhihuDaily");
             gankFragment = (GankFragment)manager.getFragment(savedInstanceState, "another");
         } else {
             zhihuDailyFragment = ZhihuDailyFragment.newInstance();
             gankFragment = GankFragment.newInstance();
         }
+
+        zhihuDailyPresenter = new ZhihuDailyPresenter(getActivity(), zhihuDailyFragment);
     }
 
     @Nullable
@@ -52,21 +55,12 @@ public class MainFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         tabLayout = (TabLayout)view.findViewById(R.id.tab_layout);
         viewPager = (ViewPager)view.findViewById(R.id.view_pager);
-        fab = (FloatingActionButton)view.findViewById(R.id.fab);
 
         adapter = new MainPagerAdapter(getChildFragmentManager(),
                 getActivity(), zhihuDailyFragment, gankFragment);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "...", Toast.LENGTH_SHORT).show();
-
-            }
-        });
 
         return view;
     }
@@ -75,7 +69,7 @@ public class MainFragment extends Fragment{
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         FragmentManager manager = getChildFragmentManager();
-        manager.putFragment(outState, "zhihudaily", zhihuDailyFragment);
+        manager.putFragment(outState, "zhihuDaily", zhihuDailyFragment);
         manager.putFragment(outState, "another", gankFragment);
     }
 }

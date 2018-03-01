@@ -1,4 +1,4 @@
-package com.example.lzz.knowledge.home;
+package com.example.lzz.knowledge.home.Detail;
 
 import android.content.Intent;
 import android.os.Bundle;

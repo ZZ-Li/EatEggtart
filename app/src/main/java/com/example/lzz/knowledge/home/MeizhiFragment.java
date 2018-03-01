@@ -14,8 +14,8 @@ import android.widget.Toast;
 import com.example.lzz.knowledge.R;
 import com.example.lzz.knowledge.adapter.MeizhiAdapter;
 import com.example.lzz.knowledge.bean.Meizhi;
-import com.example.lzz.knowledge.util.API;
-import com.example.lzz.knowledge.util.HttpUtil;
+import com.example.lzz.knowledge.tool.API;
+import com.example.lzz.knowledge.tool.HttpUtil;
 import com.google.gson.Gson;
 
 import java.io.IOException;

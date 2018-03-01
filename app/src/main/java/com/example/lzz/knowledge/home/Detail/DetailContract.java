@@ -1,4 +1,4 @@
-package com.example.lzz.knowledge.home;
+package com.example.lzz.knowledge.home.Detail;
 
 import android.webkit.WebView;
 
@@ -52,9 +52,7 @@ public interface DetailContract {
 
         void shareAsText();
 
-        void copyText();
-
-        void copyLike();
+        void copyLink();
 
         void addToOrDeleteFromBookmarks();
 

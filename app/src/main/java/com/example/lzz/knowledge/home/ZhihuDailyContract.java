@@ -7,7 +7,7 @@ import com.example.lzz.knowledge.bean.ZhihuDaily;
 import java.util.ArrayList;
 
 /**
- * Created by ASUS on 2018/2/10.
+ * Created by ASUS on 2018/1/12.
  */
 
 public interface ZhihuDailyContract {
@@ -24,7 +24,7 @@ public interface ZhihuDailyContract {
 
     interface Presenter extends BasePresenter {
 
-        void load(String date, boolean isLoadMore);
+        void loadData(String date, boolean isLoadMore);
 
         void refresh();
 
