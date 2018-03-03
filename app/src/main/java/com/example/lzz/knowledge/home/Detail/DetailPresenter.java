@@ -3,15 +3,20 @@ package com.example.lzz.knowledge.home.Detail;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.text.Html;
+import android.util.Log;
 import android.webkit.WebView;
 
 import com.example.lzz.knowledge.R;
 import com.example.lzz.knowledge.bean.ZhihuDailyStory;
+import com.example.lzz.knowledge.db.DatabaseHelper;
 import com.example.lzz.knowledge.tool.API;
 import com.example.lzz.knowledge.tool.HttpUtil;
 import com.google.gson.Gson;
@@ -35,6 +40,8 @@ public class DetailPresenter implements DetailContract.Presenter {
     private ZhihuDailyStory zhihuDailyStory;
 
     private Gson gson;
+    private DatabaseHelper helper;
+    private SQLiteDatabase db;
 
     private int id;
     private String title;
@@ -45,6 +52,8 @@ public class DetailPresenter implements DetailContract.Presenter {
         this.view.setPresenter(this);
 
         gson = new Gson();
+        helper = new DatabaseHelper(context, "DataBase.db", null,3);
+        db = helper.getWritableDatabase();
     }
 
     public void setId(int id) {
@@ -62,7 +71,7 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void openInBrowser() {
-        if (checkNull()){
+        if (zhihuDailyStory == null){
             view.showLoadingError();
             return;
         }
@@ -79,7 +88,7 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void shareAsText() {
-        if (checkNull()){
+        if (zhihuDailyStory == null){
             view.showSharingError();
             return;
         }
@@ -124,15 +133,13 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void copyLink() {
-        if (checkNull()) {
+        if (zhihuDailyStory == null) {
             view.showCopyTextError();
             return;
         }
 
         ClipboardManager manager = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clipData = null;
-
-        clipData = ClipData.newPlainText("text", Html.fromHtml(zhihuDailyStory.getShare_url()));
+        ClipData clipData = ClipData.newPlainText("text", Html.fromHtml(zhihuDailyStory.getShare_url()));
         manager.setPrimaryClip(clipData);
 
         view.showTextCopied();
@@ -140,11 +147,51 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void addToOrDeleteFromBookmarks() {
+        if (queryIfIsBookmarks()){
+            ContentValues values = new ContentValues();
+            values.put("bookmark", 0);
+            db.update("Zhihu", values,"zhihu_id=?", new String[]{String.valueOf(id)});
+            values.clear();
 
+            view.showDeletedFromBookmarks();
+        } else {
+            ContentValues values = new ContentValues();
+            values.put("bookmark", 1);
+            db.update("Zhihu", values,"zhihu_id=?", new String[]{String.valueOf(id)});
+            values.clear();
+
+            Cursor cursor = db.query("Zhihu",null,"zhihu_id=?",
+                    new String[]{String.valueOf(id)},null,null,null);
+            if (cursor.moveToFirst()){
+                do {
+                    Log.d("Detail123", "isBookmark:" + cursor.getInt(cursor.getColumnIndex("bookmark")));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+
+            view.showAddedToBookmarks();
+        }
     }
 
     @Override
     public boolean queryIfIsBookmarks() {
+        if (id == 0) {
+            view.showLoadingError();
+            return false;
+        }
+
+        Cursor cursor = helper.getReadableDatabase().query("Zhihu",null,"zhihu_id=?",
+                new String[]{String.valueOf(id)},null,null,null);
+        if (cursor.moveToFirst()){
+            do {
+                int isBookmarked = cursor.getInt(cursor.getColumnIndex("bookmark"));
+                if (isBookmarked == 1){
+                    return true;
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
         return false;
     }
 
@@ -221,7 +268,4 @@ public class DetailPresenter implements DetailContract.Presenter {
                 .append("</body></html>").toString();
     }
 
-    private boolean checkNull(){
-        return zhihuDailyStory == null;
-    }
 }

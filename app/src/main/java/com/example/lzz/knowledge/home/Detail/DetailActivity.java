@@ -25,7 +25,6 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         Intent intent = getIntent();
-
         DetailPresenter presenter = new DetailPresenter(DetailActivity.this, detailFragment);
         presenter.setId(intent.getIntExtra("id", 0));
         presenter.setTitle(intent.getStringExtra("title"));

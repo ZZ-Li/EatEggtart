@@ -123,13 +123,6 @@ public class ZhihuDailyFragment extends Fragment implements ZhihuDailyContract.V
     @Override
     public void showError() {
         Toast.makeText(getActivity(), R.string.loaded_failed, Toast.LENGTH_SHORT).show();
-//        Snackbar.make(fab, R.string.loaded_failed,Snackbar.LENGTH_INDEFINITE)
-//                .setAction(R.string.retry, new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        presenter.refresh();
-//                    }
-//                }).show();
     }
 
     @Override

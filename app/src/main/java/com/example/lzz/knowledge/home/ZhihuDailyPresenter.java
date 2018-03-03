@@ -22,7 +22,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -42,15 +41,15 @@ public class ZhihuDailyPresenter implements ZhihuDailyContract.Presenter{
     private DateFormatTool formatTool = new DateFormatTool();
     private Gson gson = new Gson();
 
-    private DatabaseHelper dbHelper;
+    private DatabaseHelper helper;
     private SQLiteDatabase db;
 
     public ZhihuDailyPresenter(Context context, ZhihuDailyContract.View view) {
         this.context = context;
         this.view = view;
         this.view.setPresenter(this);
-        dbHelper = new DatabaseHelper(context, "DataBase.db", null, 1);
-        db = dbHelper.getWritableDatabase();
+        helper = new DatabaseHelper(context, "DataBase.db", null, 3);
+        db = helper.getWritableDatabase();
     }
 
     @Override
@@ -157,6 +156,7 @@ public class ZhihuDailyPresenter implements ZhihuDailyContract.Presenter{
 
     @Override
     public void starReading(int position) {
+
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra("id", list.get(position).getId());
         intent.putExtra("title", list.get(position).getTitle());

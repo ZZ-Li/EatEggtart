@@ -21,12 +21,16 @@ public interface BookmarksContract {
         void showLoading();
 
         void stopLoading();
+
     }
 
     interface Presenter extends BasePresenter{
-        void loadData();
+
+        void loadData(boolean isRefresh);
 
         void startReading(int position);
+
+        void checkForFreshData();
 
     }
 }

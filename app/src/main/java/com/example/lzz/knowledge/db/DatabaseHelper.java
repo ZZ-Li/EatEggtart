@@ -21,13 +21,20 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             + "id integer primary key autoincrement,"
             + "zhihu_id integer not null,"
             + "zhihu_news text,"
-            + "zhihu_time real)");
+            + "zhihu_time real,"
+            + "bookmark integer default 0)");
 
-        db.execSQL("alter table Zhihu add column bookmark integer default 0");
+        //db.execSQL("alter table Zhihu add column bookmark integer default 0");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+//        switch (oldVersion){
+//            case 1:
+//
+//                break;
+//            case 2:
+//                db.execSQL("alter table Zhihu add column bookmark integer default 0");
+//        }
     }
 }

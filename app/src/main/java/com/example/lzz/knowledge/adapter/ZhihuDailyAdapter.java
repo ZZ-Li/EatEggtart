@@ -2,6 +2,7 @@ package com.example.lzz.knowledge.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +59,7 @@ public class ZhihuDailyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (holder instanceof NormalViewHolder){
             ZhihuDaily.StoriesBean item = list.get(position);
             if (item.getImages().get(0) == null){
-
+                ((NormalViewHolder) holder).imageView.setImageResource(R.drawable.nav_header_image);
             } else {
                 Glide.with(context)
                         .load(item.getImages().get(0))
@@ -74,16 +75,15 @@ public class ZhihuDailyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return list.size() + 1;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == list.size() - 1){
+        if (position == list.size()){
             return TYPE_FOOTER;
         }
         return TYPE_NORMAL;
-        //return TYPE_NORMAL;
     }
 
     static class NormalViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -94,8 +94,8 @@ public class ZhihuDailyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         public NormalViewHolder(View itemView, OnRecyclerViewOnClickListener listener) {
             super(itemView);
-            imageView = (ImageView)itemView.findViewById(R.id.imageView);
-            titleTextView = (TextView)itemView.findViewById(R.id.textView);
+            imageView = (ImageView)itemView.findViewById(R.id.item_imageView);
+            titleTextView = (TextView)itemView.findViewById(R.id.item_textView);
             this.listener = listener;
             itemView.setOnClickListener(this);
         }
