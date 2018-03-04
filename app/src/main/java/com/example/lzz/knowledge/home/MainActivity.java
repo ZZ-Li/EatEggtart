@@ -4,12 +4,15 @@ import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.lzz.knowledge.R;
 import com.example.lzz.knowledge.bookmarks.BookmarksFragment;
@@ -21,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
 
     private MainFragment mainFragment;
     private MeizhiFragment meizhiFragment;
@@ -33,22 +37,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
 
-        navView.setCheckedItem(R.id.nav_home);
-        navView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_home);
+        navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState != null){
-            mainFragment = (MainFragment) getSupportFragmentManager()
-                    .getFragment(savedInstanceState, "MainFragment");
-//            meizhiFragment = (MeizhiFragment)getSupportFragmentManager()
-//                    .getFragment(savedInstanceState, "MeizhiFragment");
-            bookmarksFragment = (BookmarksFragment)getSupportFragmentManager()
-                    .getFragment(savedInstanceState,"BookmarksFragment");
+            FragmentManager manager = getSupportFragmentManager();
+            mainFragment = (MainFragment)manager.getFragment(savedInstanceState, "MainFragment");
+            bookmarksFragment = (BookmarksFragment)manager.getFragment(savedInstanceState,"BookmarksFragment");
+//            meizhiFragment = (MeizhiFragment)manager.getFragment(savedInstanceState, "MeizhiFragment");
         } else {
             mainFragment = MainFragment.newInstance();
-//            meizhiFragment = MeizhiFragment.newInstance();
             bookmarksFragment = BookmarksFragment.newInstance();
+//            meizhiFragment = MeizhiFragment.newInstance();
         }
 
         if (!mainFragment.isAdded()) {
@@ -125,16 +127,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        if (mainFragment.isAdded()){
-            getSupportFragmentManager().putFragment(outState, "MainFragment", mainFragment);
+    protected void onStart() {
+        super.onStart();
+        if (!bookmarksFragment.isHidden()){
+            bookmarksFragment.notifyDataChanged();
         }
-//        if (meizhiFragment.isAdded()){
-//            getSupportFragmentManager().putFragment(outState, "MeizhiFragment", meizhiFragment);
-//        }
-        if (bookmarksFragment.isAdded()){
-            getSupportFragmentManager().putFragment(outState,"BookmarksFragment", bookmarksFragment);
+        Log.d("MainTest","MainActivity.onStart" );
+    }
+
+    private long exitTime = 0;
+    @Override
+    public void onBackPressed() {
+        if (mainFragment.isHidden()){
+            showMainFragment();
+            navigationView.setCheckedItem(R.id.nav_home);
+        } else {
+            if(System.currentTimeMillis() - exitTime > 2000) {
+                Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        FragmentManager manager = getSupportFragmentManager();
+        if (mainFragment.isAdded()){
+            manager.putFragment(outState, "MainFragment", mainFragment);
+        }
+        if (bookmarksFragment.isAdded()){
+            manager.putFragment(outState,"BookmarksFragment", bookmarksFragment);
+        }
+//        if (meizhiFragment.isAdded()){
+//            manager.putFragment(outState, "MeizhiFragment", meizhiFragment);
+//        }
+    }
+
 }

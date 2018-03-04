@@ -29,17 +29,17 @@ public class MainPagerAdapter extends FragmentPagerAdapter{
         this.zhihuDailyFragment = zhihuDailyFragment;
         this.gankFragment = gankFragment;
         titles = new String[] {
-                context.getResources().getString(R.string.zhihu_daily)};
+                context.getResources().getString(R.string.zhihu_daily),
+                context.getResources().getString(R.string.buzhidao)};
     }
 
     @Override
     public Fragment getItem(int position) {
-//        if (position == 1){
-//            return gankFragment;
-//        } else {
-//            return zhihuDailyFragment;
-//        }
-        return zhihuDailyFragment;
+        if (position == 1){
+            return gankFragment;
+        } else {
+            return zhihuDailyFragment;
+        }
     }
 
     @Override

@@ -23,6 +23,7 @@ import java.util.List;
 public class ZhihuDailyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_NORMAL = 0;
     private static final int TYPE_FOOTER = 1;
+    private boolean isShowFooter = true;
 
     private Context context;
     private List<ZhihuDaily.StoriesBean> list;
@@ -73,14 +74,22 @@ public class ZhihuDailyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+    public void isShowFooter(boolean isShowFooter){
+        this.isShowFooter = isShowFooter;
+    }
+
     @Override
     public int getItemCount() {
-        return list.size() + 1;
+        if (isShowFooter) {
+            return list.size() + 1;
+        } else {
+            return list.size();
+        }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == list.size()){
+        if (position == list.size() && isShowFooter){
             return TYPE_FOOTER;
         }
         return TYPE_NORMAL;

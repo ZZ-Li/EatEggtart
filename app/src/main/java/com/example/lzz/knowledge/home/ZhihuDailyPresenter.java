@@ -84,12 +84,12 @@ public class ZhihuDailyPresenter implements ZhihuDailyContract.Presenter{
                         public void run() {
                             try {
                                 ZhihuDaily zhihuDaily = gson.fromJson(result, ZhihuDaily.class);
-                                ContentValues values = new ContentValues();
 
                                 if (!isLoadMore) {
                                     list.clear();
                                 }
 
+                                ContentValues values = new ContentValues();
                                 for (ZhihuDaily.StoriesBean item : zhihuDaily.getStories()){
                                     list.add(item);
                                     if (!queryIdExists(item.getId())){
@@ -124,6 +124,7 @@ public class ZhihuDailyPresenter implements ZhihuDailyContract.Presenter{
 
         } else {
             if (!isLoadMore){
+                list.clear();
                 Cursor cursor = db.query("Zhihu", null, null, null, null, null, null);
                 if (cursor.moveToFirst()) {
                     do {

@@ -103,7 +103,6 @@ public class BookmarksFragment extends Fragment implements BookmarksContract.Vie
 
     @Override
     public void notifyDataChanged() {
-
         presenter.loadData(true);
         adapter.notifyDataSetChanged();
     }
