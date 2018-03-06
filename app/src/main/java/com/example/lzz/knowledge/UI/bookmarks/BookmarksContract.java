@@ -1,4 +1,4 @@
-package com.example.lzz.knowledge.bookmarks;
+package com.example.lzz.knowledge.UI.bookmarks;
 
 import com.example.lzz.knowledge.base.BasePresenter;
 import com.example.lzz.knowledge.base.BaseView;

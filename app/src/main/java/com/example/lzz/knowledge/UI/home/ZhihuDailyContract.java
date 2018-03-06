@@ -1,4 +1,4 @@
-package com.example.lzz.knowledge.home;
+package com.example.lzz.knowledge.UI.home;
 
 import com.example.lzz.knowledge.base.BasePresenter;
 import com.example.lzz.knowledge.base.BaseView;

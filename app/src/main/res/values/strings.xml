@@ -31,7 +31,14 @@
     <string name="share_extra"> 分享自 蛋挞</string>
     <string name="share_to">分享至</string>
 
-    <string name="network_error">网络走丢了…点击重试</string>
+    <string name="basic_settings">基本设置</string>
+    <string name="no_picture_mode">无图模式</string>
+    <string name="no_picture_mode_description">阅读时不再加载图片</string>
+    <string name="time_of_saving_articles">文章保存时间</string>
+    <string name="other_settings">其他设置</string>
+    <string name="clear_image_cache">清除图片缓存</string>
+    <string name="clear_image_cache_successfully">清理成功</string>
 
+    <string name="network_error">网络走丢了…点击重试</string>
 
 </resources>

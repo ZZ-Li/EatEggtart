@@ -1,4 +1,4 @@
-package com.example.lzz.knowledge.home;
+package com.example.lzz.knowledge.UI.home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

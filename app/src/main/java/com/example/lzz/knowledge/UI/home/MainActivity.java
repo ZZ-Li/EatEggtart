@@ -1,9 +1,7 @@
-package com.example.lzz.knowledge.home;
+package com.example.lzz.knowledge.UI.home;
 
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -15,10 +13,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.lzz.knowledge.R;
-import com.example.lzz.knowledge.bookmarks.BookmarksFragment;
-import com.example.lzz.knowledge.bookmarks.BookmarksPresenter;
-import com.example.lzz.knowledge.home.MainFragment;
-import com.example.lzz.knowledge.home.MeizhiFragment;
+import com.example.lzz.knowledge.UI.bookmarks.BookmarksFragment;
+import com.example.lzz.knowledge.UI.bookmarks.BookmarksPresenter;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 

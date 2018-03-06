@@ -1,4 +1,4 @@
-package com.example.lzz.knowledge.home.Detail;
+package com.example.lzz.knowledge.UI.detail;
 
 import android.app.Activity;
 import android.content.ClipData;

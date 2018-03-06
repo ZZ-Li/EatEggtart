@@ -1,4 +1,4 @@
-package com.example.lzz.knowledge.home;
+package com.example.lzz.knowledge.UI.home;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.lzz.knowledge.bean.ZhihuDaily;
 import com.example.lzz.knowledge.db.DatabaseHelper;
-import com.example.lzz.knowledge.home.Detail.DetailActivity;
+import com.example.lzz.knowledge.UI.detail.DetailActivity;
 import com.example.lzz.knowledge.tool.API;
 import com.example.lzz.knowledge.tool.DateFormatTool;
 import com.example.lzz.knowledge.tool.HttpUtil;

@@ -1,4 +1,4 @@
-package com.example.lzz.knowledge.bookmarks;
+package com.example.lzz.knowledge.UI.bookmarks;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.lzz.knowledge.bean.ZhihuDaily;
 import com.example.lzz.knowledge.db.DatabaseHelper;
-import com.example.lzz.knowledge.home.Detail.DetailActivity;
+import com.example.lzz.knowledge.UI.detail.DetailActivity;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
