@@ -1,4 +1,4 @@
-package com.example.lzz.knowledge.UI.home;
+package com.example.lzz.knowledge.ui.home;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -13,8 +13,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.lzz.knowledge.R;
-import com.example.lzz.knowledge.UI.bookmarks.BookmarksFragment;
-import com.example.lzz.knowledge.UI.bookmarks.BookmarksPresenter;
+import com.example.lzz.knowledge.ui.bookmarks.BookmarksFragment;
+import com.example.lzz.knowledge.ui.bookmarks.BookmarksPresenter;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 

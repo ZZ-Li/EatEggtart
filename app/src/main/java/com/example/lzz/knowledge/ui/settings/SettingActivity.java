@@ -1,4 +1,4 @@
-package com.example.lzz.knowledge.UI.settings;
+package com.example.lzz.knowledge.ui.settings;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

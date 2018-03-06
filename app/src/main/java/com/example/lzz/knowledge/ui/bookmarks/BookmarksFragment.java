@@ -1,4 +1,4 @@
-package com.example.lzz.knowledge.UI.bookmarks;
+package com.example.lzz.knowledge.ui.bookmarks;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

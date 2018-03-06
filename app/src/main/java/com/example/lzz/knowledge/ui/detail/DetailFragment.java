@@ -1,4 +1,4 @@
-package com.example.lzz.knowledge.UI.detail;
+package com.example.lzz.knowledge.ui.detail;
 
 import android.content.Context;
 import android.os.Bundle;

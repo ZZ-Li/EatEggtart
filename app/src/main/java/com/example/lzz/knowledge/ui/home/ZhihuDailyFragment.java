@@ -1,4 +1,4 @@
-package com.example.lzz.knowledge.UI.home;
+package com.example.lzz.knowledge.ui.home;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

@@ -5,9 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.lzz.knowledge.UI.home.GankFragment;
+import com.example.lzz.knowledge.ui.home.GankFragment;
 import com.example.lzz.knowledge.R;
-import com.example.lzz.knowledge.UI.home.ZhihuDailyFragment;
+import com.example.lzz.knowledge.ui.home.ZhihuDailyFragment;
 
 /**
  * Created by ASUS on 2018/1/24.
