@@ -1,5 +1,6 @@
 package com.example.lzz.knowledge.ui.home;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -13,8 +14,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.lzz.knowledge.R;
+import com.example.lzz.knowledge.ui.about.AboutActivity;
 import com.example.lzz.knowledge.ui.bookmarks.BookmarksFragment;
 import com.example.lzz.knowledge.ui.bookmarks.BookmarksPresenter;
+import com.example.lzz.knowledge.ui.settings.SettingActivity;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -79,6 +82,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             showMainFragment();
         } else if (item.getItemId() == R.id.nav_bookmarks){
             showBookmarksFragment();
+        } else if (item.getItemId() == R.id.nav_settings){
+            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.nav_about){
+            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+            startActivity(intent);
         }
         return true;
     }
@@ -128,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (!bookmarksFragment.isHidden()){
             bookmarksFragment.notifyDataChanged();
         }
-        Log.d("MainTest","MainActivity.onStart" );
     }
 
     private long exitTime = 0;

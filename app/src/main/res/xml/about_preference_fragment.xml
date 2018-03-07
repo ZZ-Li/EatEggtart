@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v7.preference.PreferenceCategory
+        android:title="@string/app_name">
+
+        <android.support.v7.preference.Preference
+            android:title="@string/version"
+            android:key="version"
+            android:summary="@string/version_number"/>
+
+    </android.support.v7.preference.PreferenceCategory>
+
+    <android.support.v7.preference.PreferenceCategory
+        android:title="@string/developer">
+
+        <android.support.v7.preference.Preference
+            android:title="@string/developer_name"
+            android:key="developer_name"
+            android:summary="@string/developer_description"/>
+
+        <android.support.v7.preference.Preference
+            android:title="@string/github"
+            android:key="github"
+            android:summary="@string/github_url"/>
+
+    </android.support.v7.preference.PreferenceCategory>
+</android.support.v7.preference.PreferenceScreen>

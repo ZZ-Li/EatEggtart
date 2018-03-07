@@ -23,7 +23,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.detail.DetailActivity" />
-        <activity android:name=".ui.settings.SettingActivity"></activity>
+        <activity android:name=".ui.settings.SettingActivity" />
+        <activity android:name=".ui.about.AboutActivity"></activity>
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -28,6 +29,8 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by ASUS on 2018/2/28.
  */
@@ -42,6 +45,7 @@ public class DetailPresenter implements DetailContract.Presenter {
     private Gson gson;
     private DatabaseHelper helper;
     private SQLiteDatabase db;
+    private SharedPreferences sharedPreferences;
 
     private int id;
     private String title;
@@ -54,6 +58,7 @@ public class DetailPresenter implements DetailContract.Presenter {
         gson = new Gson();
         helper = new DatabaseHelper(context, "DataBase.db", null,3);
         db = helper.getWritableDatabase();
+        sharedPreferences = context.getSharedPreferences("user_settings",MODE_PRIVATE);
     }
 
     public void setId(int id) {
@@ -203,6 +208,7 @@ public class DetailPresenter implements DetailContract.Presenter {
         }
         view.showLoading();
         view.setTitle(title);
+        view.setImageMode(sharedPreferences.getBoolean("no_picture_mode", false));
 
         HttpUtil.sendOKHttpRequest(API.ZHIHU_NEWS_DETAIL + id, new Callback() {
             @Override

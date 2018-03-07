@@ -1,6 +1,7 @@
 package com.example.lzz.knowledge.ui.settings;
 
-import android.preference.Preference;
+
+import android.support.v7.preference.Preference;
 
 import com.example.lzz.knowledge.base.BasePresenter;
 import com.example.lzz.knowledge.base.BaseView;
@@ -11,12 +12,12 @@ import com.example.lzz.knowledge.base.BaseView;
 
 public interface SettingContract {
 
-    interface View extends BaseView<Prestener>{
+    interface View extends BaseView<Presenter>{
 
         void showCleanImageCacheDone();
     }
 
-    interface Prestener extends BasePresenter{
+    interface Presenter extends BasePresenter{
 
         void setNoPictureMode(Preference preference);
 

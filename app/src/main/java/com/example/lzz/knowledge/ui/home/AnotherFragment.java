@@ -15,13 +15,13 @@ import com.example.lzz.knowledge.R;
  * Created by ASUS on 2018/1/24.
  */
 
-public class GankFragment extends Fragment {
+public class AnotherFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout refreshLayout;
 
-    public static GankFragment newInstance(){
-        return new GankFragment();
+    public static AnotherFragment newInstance(){
+        return new AnotherFragment();
     }
 
     @Override

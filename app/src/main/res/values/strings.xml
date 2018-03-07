@@ -30,6 +30,7 @@
     <string name="share_error">分享失败</string>
     <string name="share_extra"> 分享自 蛋挞</string>
     <string name="share_to">分享至</string>
+    <string name="network_error">网络走丢了…点击重试</string>
 
     <string name="basic_settings">基本设置</string>
     <string name="no_picture_mode">无图模式</string>
@@ -39,6 +40,12 @@
     <string name="clear_image_cache">清除图片缓存</string>
     <string name="clear_image_cache_successfully">清理成功</string>
 
-    <string name="network_error">网络走丢了…点击重试</string>
+    <string name="version">版本</string>
+    <string name="version_number">V1.0.0</string>
+    <string name="developer">开发者</string>
+    <string name="developer_name">zz</string>
+    <string name="developer_description">广东,深圳</string>
+    <string name="github">GitHub</string>
+    <string name="github_url">https://github.com/ZZ-Li</string>
 
 </resources>

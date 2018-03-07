@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by ASUS on 2018/2/10.
  */
 
-public interface GankContract {
+public interface AnotherContract {
     interface View extends BaseView<Presenter>{
 
         void showError();

@@ -24,7 +24,7 @@ public class MainFragment extends Fragment{
     private MainPagerAdapter adapter;
 
     private ZhihuDailyFragment zhihuDailyFragment;
-    private GankFragment gankFragment;
+    private AnotherFragment anotherFragment;
 
     private ZhihuDailyPresenter zhihuDailyPresenter;
 
@@ -38,10 +38,10 @@ public class MainFragment extends Fragment{
         if (savedInstanceState != null){
             FragmentManager manager = getChildFragmentManager();
             zhihuDailyFragment = (ZhihuDailyFragment)manager.getFragment(savedInstanceState, "zhihuDaily");
-            gankFragment = (GankFragment)manager.getFragment(savedInstanceState, "another");
+            anotherFragment = (AnotherFragment)manager.getFragment(savedInstanceState, "another");
         } else {
             zhihuDailyFragment = ZhihuDailyFragment.newInstance();
-            gankFragment = GankFragment.newInstance();
+            anotherFragment = AnotherFragment.newInstance();
         }
 
         zhihuDailyPresenter = new ZhihuDailyPresenter(getActivity(), zhihuDailyFragment);
@@ -55,7 +55,7 @@ public class MainFragment extends Fragment{
         viewPager = (ViewPager)view.findViewById(R.id.view_pager);
 
         adapter = new MainPagerAdapter(getChildFragmentManager(),
-                getActivity(), zhihuDailyFragment, gankFragment);
+                getActivity(), zhihuDailyFragment, anotherFragment);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
@@ -68,6 +68,6 @@ public class MainFragment extends Fragment{
         super.onSaveInstanceState(outState);
         FragmentManager manager = getChildFragmentManager();
         manager.putFragment(outState, "zhihuDaily", zhihuDailyFragment);
-        manager.putFragment(outState, "another", gankFragment);
+        manager.putFragment(outState, "another", anotherFragment);
     }
 }
