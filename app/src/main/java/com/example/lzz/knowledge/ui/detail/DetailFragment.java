@@ -37,6 +37,7 @@ public class DetailFragment extends Fragment implements DetailContract.View{
 
     private SwipeRefreshLayout refreshLayout;
     private CollapsingToolbarLayout toolbarLayout;
+    private Toolbar toolbar;
     private NestedScrollView scrollView;
     private ImageView imageView;
     private WebView webView;
@@ -58,7 +59,7 @@ public class DetailFragment extends Fragment implements DetailContract.View{
 
        presenter.requestData();
 
-       view.findViewById(R.id.detail_tool_bar).setOnClickListener(new View.OnClickListener() {
+       toolbar.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                scrollView.smoothScrollTo(0, 0);
@@ -84,13 +85,14 @@ public class DetailFragment extends Fragment implements DetailContract.View{
         refreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refresh_layout);
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
-        DetailActivity activity = (DetailActivity)getActivity();
-        activity.setSupportActionBar((Toolbar) view.findViewById(R.id.detail_tool_bar));
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         imageView = (ImageView)view.findViewById(R.id.detail_image_view);
         scrollView = (NestedScrollView)view.findViewById(R.id.scrollView);
         toolbarLayout = (CollapsingToolbarLayout)view.findViewById(R.id.collapsing_toolbar_layout);
+        toolbar = (Toolbar)view.findViewById(R.id.detail_tool_bar);
+
+        DetailActivity activity = (DetailActivity)getActivity();
+        activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         webView = (WebView)view.findViewById(R.id.web_view);
         webView.setScrollbarFadingEnabled(true);

@@ -11,11 +11,13 @@ import android.view.ViewGroup;
 
 import com.example.lzz.knowledge.R;
 
+import java.util.ArrayList;
+
 /**
  * Created by ASUS on 2018/1/24.
  */
 
-public class AnotherFragment extends Fragment {
+public class AnotherFragment extends Fragment implements AnotherContract.View{
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout refreshLayout;
@@ -33,6 +35,48 @@ public class AnotherFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
+
+        initViews(view);
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(false);
+            }
+        });
+
         return view;
+    }
+
+    @Override
+    public void setPresenter(AnotherContract.Presenter presenter) {
+
+    }
+
+    @Override
+    public void initViews(View view) {
+        recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view);
+        refreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refresh_layout);
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
+    }
+
+    @Override
+    public void showError() {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void stopLoading() {
+
+    }
+
+    @Override
+    public void showResults(ArrayList list) {
+
     }
 }

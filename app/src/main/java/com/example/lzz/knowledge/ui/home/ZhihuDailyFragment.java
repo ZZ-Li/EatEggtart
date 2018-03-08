@@ -2,6 +2,7 @@ package com.example.lzz.knowledge.ui.home;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import com.example.lzz.knowledge.adapter.ZhihuDailyAdapter;
 import com.example.lzz.knowledge.bean.ZhihuDaily;
 import com.example.lzz.knowledge.adapter.OnRecyclerViewOnClickListener;
 import com.example.lzz.knowledge.tool.DateFormatTool;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,6 +32,7 @@ public class ZhihuDailyFragment extends Fragment implements ZhihuDailyContract.V
     private SwipeRefreshLayout refreshLayout;
     private ZhihuDailyAdapter adapter;
     private FloatingActionButton fab;
+    private TabLayout tabLayout;
 
     private DateFormatTool formatTool = new DateFormatTool();
 
@@ -96,6 +99,38 @@ public class ZhihuDailyFragment extends Fragment implements ZhihuDailyContract.V
             }
         });
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (tabLayout.getSelectedTabPosition() == 0){
+                    Calendar now = Calendar.getInstance();
+                    now.set(mYear, mMonth, mDay);
+                    DatePickerDialog dialog = DatePickerDialog.newInstance(new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                            mYear = year;
+                            mMonth = monthOfYear;
+                            mDay = dayOfMonth;
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.clear();
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            presenter.loadData(formatTool.ZhihuDailyDateFormat(calendar.getTimeInMillis()),
+                                    true);
+                        }
+                    }, now.get(Calendar.YEAR),now.get(Calendar.MONTH),now.get(Calendar.DAY_OF_MONTH));
+
+                    dialog.setMaxDate(Calendar.getInstance());
+                    Calendar minDate = Calendar.getInstance();
+                    // 2013.5.20是知乎日报api首次上线
+                    minDate.set(2013,5,20);
+                    dialog.setMinDate(minDate);
+                    dialog.vibrate(false);
+
+                    dialog.show(getActivity().getFragmentManager(), "DatePickDialog");
+                }
+            }
+        });
+
         return view;
     }
 
@@ -116,7 +151,7 @@ public class ZhihuDailyFragment extends Fragment implements ZhihuDailyContract.V
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
         fab = (FloatingActionButton)getActivity().findViewById(R.id.fab);
-
+        tabLayout = (TabLayout)getActivity().findViewById(R.id.tab_layout);
     }
 
     @Override
