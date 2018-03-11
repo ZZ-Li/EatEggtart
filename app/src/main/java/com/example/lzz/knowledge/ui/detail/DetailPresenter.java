@@ -18,8 +18,8 @@ import android.webkit.WebView;
 import com.example.lzz.knowledge.R;
 import com.example.lzz.knowledge.bean.ZhihuDailyStory;
 import com.example.lzz.knowledge.db.DatabaseHelper;
-import com.example.lzz.knowledge.tool.API;
-import com.example.lzz.knowledge.tool.HttpUtil;
+import com.example.lzz.knowledge.utils.API;
+import com.example.lzz.knowledge.utils.HttpUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 

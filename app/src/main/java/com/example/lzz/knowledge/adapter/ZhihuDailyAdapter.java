@@ -60,13 +60,13 @@ public class ZhihuDailyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (holder instanceof NormalViewHolder){
             ZhihuDaily.StoriesBean item = list.get(position);
             if (item.getImages().get(0) == null){
-                ((NormalViewHolder) holder).imageView.setImageResource(R.drawable.nav_header_image);
+                ((NormalViewHolder) holder).imageView.setImageResource(R.drawable.image_load_error);
             } else {
                 Glide.with(context)
                         .load(item.getImages().get(0))
                         .asBitmap()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .error(R.drawable.nav_header_image)
+                        .error(R.drawable.image_load_error)
                         .centerCrop()
                         .into(((NormalViewHolder) holder).imageView);
             }

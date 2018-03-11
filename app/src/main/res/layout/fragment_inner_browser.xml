@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/image_view"
                 android:visibility="gone"
-                android:src="@drawable/internet_error"/>
+                android:src="@drawable/image_load_error"/>
 
             <TextView
                 android:layout_width="match_parent"

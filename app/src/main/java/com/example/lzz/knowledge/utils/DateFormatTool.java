@@ -1,4 +1,4 @@
-package com.example.lzz.knowledge.tool;
+package com.example.lzz.knowledge.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -10,10 +10,10 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.lzz.knowledge.bean.ZhihuDaily;
 import com.example.lzz.knowledge.db.DatabaseHelper;
 import com.example.lzz.knowledge.ui.detail.DetailActivity;
-import com.example.lzz.knowledge.tool.API;
-import com.example.lzz.knowledge.tool.DateFormatTool;
-import com.example.lzz.knowledge.tool.HttpUtil;
-import com.example.lzz.knowledge.tool.NetworkState;
+import com.example.lzz.knowledge.utils.API;
+import com.example.lzz.knowledge.utils.DateFormatTool;
+import com.example.lzz.knowledge.utils.HttpUtil;
+import com.example.lzz.knowledge.utils.NetworkState;
 import com.google.gson.Gson;
 
 import java.io.IOException;

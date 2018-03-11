@@ -16,7 +16,7 @@ import com.example.lzz.knowledge.R;
 import com.example.lzz.knowledge.adapter.ZhihuDailyAdapter;
 import com.example.lzz.knowledge.bean.ZhihuDaily;
 import com.example.lzz.knowledge.adapter.OnRecyclerViewOnClickListener;
-import com.example.lzz.knowledge.tool.DateFormatTool;
+import com.example.lzz.knowledge.utils.DateFormatTool;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.ArrayList;

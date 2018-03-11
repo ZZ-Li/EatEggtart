@@ -1,4 +1,4 @@
-package com.example.lzz.knowledge.tool;
+package com.example.lzz.knowledge.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

@@ -1,4 +1,4 @@
-package com.example.lzz.knowledge.tool;
+package com.example.lzz.knowledge.utils;
 
 /**
  * Created by ZZ on 2018/1/17.

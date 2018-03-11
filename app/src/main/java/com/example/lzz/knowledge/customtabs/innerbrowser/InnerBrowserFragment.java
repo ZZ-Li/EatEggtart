@@ -41,7 +41,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.lzz.knowledge.R;
-import com.example.lzz.knowledge.tool.NetworkState;
+import com.example.lzz.knowledge.utils.NetworkState;
 
 
 public class InnerBrowserFragment extends Fragment {

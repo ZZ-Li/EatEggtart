@@ -1,13 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="160dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:padding="10dp"
+    android:background="@drawable/nav_header">
 
-    <ImageView
-        android:id="@+id/nav_header_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/nav_header_image"
-        android:scaleType="centerCrop"/>
+    <!--<ImageView-->
+        <!--android:id="@+id/nav_header_image"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:src="@drawable/nav_header_image"-->
+        <!--android:scaleType="centerCrop"/>-->
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/nav_head_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/head_image"/>
+
+        <TextView
+            android:id="@+id/nav_head_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/developer_name"
+            android:textSize="20sp"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</RelativeLayout>

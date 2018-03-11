@@ -86,7 +86,7 @@ public class MeizhiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         }
                     })
                     .thumbnail(0.5f)
-                    .error(R.drawable.nav_header_image)
+                    .error(R.drawable.image_load_error)
                     .into(((ViewHolder) holder).imageView);
         }
 

@@ -51,7 +51,7 @@ public class BookmarksAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHol
                     .asBitmap()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .centerCrop()
-                    .error(R.drawable.nav_header_image)
+                    .error(R.drawable.image_load_error)
                     .into(((NormalViewHolder) holder).imageView);
             ((NormalViewHolder) holder).textView.setText(item.getTitle());
         }
