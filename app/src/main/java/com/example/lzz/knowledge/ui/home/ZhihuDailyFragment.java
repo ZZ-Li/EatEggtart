@@ -61,14 +61,11 @@ public class ZhihuDailyFragment extends Fragment implements ZhihuDailyContract.V
 
         presenter.start();
 
-        ClipboardManager clipboardManager = (ClipboardManager)getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-
-
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                mDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
                 presenter.refresh();
-
             }
         });
 
@@ -120,7 +117,7 @@ public class ZhihuDailyFragment extends Fragment implements ZhihuDailyContract.V
                             calendar.clear();
                             calendar.set(year, monthOfYear, dayOfMonth);
                             presenter.loadData(formatTool.ZhihuDailyDateFormat(calendar.getTimeInMillis()),
-                                    true);
+                                    false);
                         }
                     }, now.get(Calendar.YEAR),now.get(Calendar.MONTH),now.get(Calendar.DAY_OF_MONTH));
 

@@ -2,7 +2,6 @@ package com.example.lzz.knowledge.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +44,7 @@ public class ZhihuDailyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         switch (viewType){
             case TYPE_NORMAL:
                 View view = LayoutInflater.from(context)
-                        .inflate(R.layout.list_item_layout, parent, false);
+                        .inflate(R.layout.list_main_item_layout, parent, false);
                 NormalViewHolder holder = new NormalViewHolder(view, mListener);
                 return holder;
             case TYPE_FOOTER:

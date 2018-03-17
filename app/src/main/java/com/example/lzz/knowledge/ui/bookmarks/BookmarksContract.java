@@ -32,5 +32,7 @@ public interface BookmarksContract {
 
         void checkForFreshData();
 
+        void deleteSelectedData(ArrayList deletedList);
+
     }
 }

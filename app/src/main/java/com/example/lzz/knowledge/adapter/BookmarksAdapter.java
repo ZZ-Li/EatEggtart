@@ -1,6 +1,8 @@
 package com.example.lzz.knowledge.adapter;
 
 import android.content.Context;
+import android.opengl.Visibility;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,21 +26,33 @@ public class BookmarksAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHol
     private Context context;
     private ArrayList<ZhihuDaily.StoriesBean> list;
 
-    private OnRecyclerViewOnClickListener mListener;
+    private OnBookmarkListOnClickListener mListener;
+
+    private boolean isShowDeletion = false;
+    private boolean isSelectAll;
 
     public BookmarksAdapter(Context context, ArrayList<ZhihuDaily.StoriesBean> list) {
         this.context = context;
         this.list = list;
     }
 
-    public void setItemClickListener(OnRecyclerViewOnClickListener listener){
+    public void setItemClickListener(OnBookmarkListOnClickListener listener){
         this.mListener = listener;
+    }
+
+    public void setShowDeletion(boolean isShowDeletion){
+        this.isShowDeletion = isShowDeletion;
+    }
+
+    public void selectAllCheckBox(boolean isSelectAll){
+        this.isSelectAll = isSelectAll;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.list_item_layout, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.list_bookmark_item_layout, parent, false);
         NormalViewHolder holder = new NormalViewHolder(view, mListener);
+
         return holder;
     }
 
@@ -54,6 +68,16 @@ public class BookmarksAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHol
                     .error(R.drawable.image_load_error)
                     .into(((NormalViewHolder) holder).imageView);
             ((NormalViewHolder) holder).textView.setText(item.getTitle());
+
+            if (isShowDeletion){
+                ((NormalViewHolder) holder).checkBox.setVisibility(View.VISIBLE);
+            }else {
+                ((NormalViewHolder) holder).checkBox.setVisibility(View.GONE);
+            }
+
+            if (((NormalViewHolder) holder).checkBox.getVisibility() == View.VISIBLE){
+                ((NormalViewHolder) holder).checkBox.setChecked(isSelectAll);
+            }
         }
     }
 
@@ -66,12 +90,14 @@ public class BookmarksAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         ImageView imageView;
         TextView textView;
-        OnRecyclerViewOnClickListener listener;
+        AppCompatCheckBox checkBox;
+        OnBookmarkListOnClickListener listener;
 
-        public NormalViewHolder(View itemView, OnRecyclerViewOnClickListener listener) {
+        public NormalViewHolder(View itemView, OnBookmarkListOnClickListener listener) {
             super(itemView);
             imageView = (ImageView)itemView.findViewById(R.id.item_imageView);
             textView = (TextView)itemView.findViewById(R.id.item_textView);
+            checkBox = (AppCompatCheckBox)itemView.findViewById(R.id.is_delete_checkbox);
             this.listener = listener;
             itemView.setOnClickListener(this);
         }
@@ -79,7 +105,14 @@ public class BookmarksAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Override
         public void onClick(View v) {
             if (listener != null){
-                listener.OnItemClick(v, getLayoutPosition());
+                if (checkBox.getVisibility() == View.VISIBLE){
+                    if (!checkBox.isChecked()){
+                        checkBox.setChecked(true);
+                    }else {
+                        checkBox.setChecked(false);
+                    }
+                }
+                listener.OnItemClick(v, getLayoutPosition(), checkBox.isChecked());
             }
         }
 

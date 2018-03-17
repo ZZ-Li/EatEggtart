@@ -12,7 +12,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.text.Html;
-import android.util.Log;
 import android.webkit.WebView;
 
 import com.example.lzz.knowledge.R;
@@ -166,15 +165,6 @@ public class DetailPresenter implements DetailContract.Presenter {
             db.update("Zhihu", values,"zhihu_id=?", new String[]{String.valueOf(id)});
             values.clear();
 
-            Cursor cursor = db.query("Zhihu",null,"zhihu_id=?",
-                    new String[]{String.valueOf(id)},null,null,null);
-            if (cursor.moveToFirst()){
-                do {
-                    Log.d("Detail123", "isBookmark:" + cursor.getInt(cursor.getColumnIndex("bookmark")));
-                } while (cursor.moveToNext());
-            }
-            cursor.close();
-
             view.showAddedToBookmarks();
         }
     }
@@ -250,7 +240,6 @@ public class DetailPresenter implements DetailContract.Presenter {
                 do {
                     if (cursor.getInt(cursor.getColumnIndex("zhihu_id")) == id){
                         String content = cursor.getString(cursor.getColumnIndex("zhihu_content"));
-                        Log.d("CacheServiceT", content);
                         try{
                             zhihuDailyStory = gson.fromJson(content, ZhihuDailyStory.class);
                         }catch (JsonSyntaxException e){

@@ -1,9 +1,11 @@
 package com.example.lzz.knowledge.ui.bookmarks;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.lzz.knowledge.bean.ZhihuDaily;
 import com.example.lzz.knowledge.db.DatabaseHelper;
@@ -75,4 +77,21 @@ public class BookmarksPresenter implements BookmarksContract.Presenter {
         intent.putExtra("title", list.get(position).getTitle());
         context.startActivity(intent);
     }
+
+    @Override
+    public void deleteSelectedData(ArrayList deletedList) {
+        if (deletedList != null){
+            ContentValues values = new ContentValues();
+            for (Object position : deletedList){
+                int id = list.get((int)position).getId();
+                Log.d("BookTest","id: " +id);
+                values.put("bookmark", 0);
+                db.update("Zhihu",values,"zhihu_id = ?", new String[]{String.valueOf(id)});
+                values.clear();
+            }
+        }
+
+        view.notifyDataChanged();
+    }
+
 }

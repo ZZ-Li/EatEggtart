@@ -118,9 +118,7 @@ public class ZhihuDailyPresenter implements ZhihuDailyContract.Presenter{
                                     intent.putExtra("type",CacheService.TYPE_ZHIHU);
                                     intent.putExtra("id",item.getId());
                                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-
                                 }
-
                                 view.showResults(list);
                             } catch (Exception e){
                                 e.printStackTrace();

@@ -22,14 +22,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.detail.DetailActivity" />
-        <activity android:name=".ui.settings.SettingActivity" />
-        <activity android:name=".ui.about.AboutActivity" />
+        <activity android:name=".ui.detail.DetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".ui.settings.SettingActivity"
+            />
+
+        <activity android:name=".ui.about.AboutActivity"
+            />
 
         <service
             android:name=".service.CacheService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true"/>
     </application>
 
 </manifest>

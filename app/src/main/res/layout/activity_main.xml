@@ -27,13 +27,52 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <FrameLayout
-            android:id="@+id/layout_fragment"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="?actionBarSize"/>
-    </android.support.design.widget.CoordinatorLayout>
+            android:layout_marginTop="?actionBarSize">
+            <FrameLayout
+                android:id="@+id/layout_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
+            <LinearLayout
+                android:id="@+id/bookmark_bottom_editor_layout"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:orientation="horizontal"
+                android:background="@color/white"
+                android:visibility="gone"
+                android:layout_alignParentBottom="true">
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/select_all_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/select_all"
+                    android:textSize="16sp"
+                    android:textColor="@color/textColorPrimary"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/delete_textView"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:gravity="center"
+                    android:text="@string/delete"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:background="@color/colorPrimary_rad"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

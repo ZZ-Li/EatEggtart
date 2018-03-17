@@ -9,8 +9,7 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
     </style>
 
-    <style name="AppTheme.NoActionBar" parent="AppTheme">
-    </style>
+    <style name="AppTheme.NoActionBar" parent="AppTheme"/>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
@@ -26,5 +25,9 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">normal</item>
     </style>
+
+    <!--<style name="MyCheckBox" parent="Theme.AppCompat.Light">-->
+        <!--<item name="android:colorControlNormal">@color/colorPrimary</item>-->
+    <!--</style>-->
 
 </resources>
