@@ -6,6 +6,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.lzz.knowledge.R;
+import com.example.lzz.knowledge.service.CacheService;
 import com.example.lzz.knowledge.ui.about.AboutActivity;
 import com.example.lzz.knowledge.ui.bookmarks.BookmarksFragment;
 import com.example.lzz.knowledge.ui.bookmarks.BookmarksPresenter;
@@ -37,6 +39,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
+        drawerLayout.setDrawerListener(toggle);
+        toggle.syncState();
 
         navigationView.setCheckedItem(R.id.nav_home);
         navigationView.setNavigationItemSelectedListener(this);
@@ -73,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         new BookmarksPresenter(MainActivity.this, bookmarksFragment);
 
         showMainFragment();
+
+        startService(new Intent(this, CacheService.class));
     }
 
     @Override
@@ -137,6 +147,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (!bookmarksFragment.isHidden()){
             bookmarksFragment.notifyDataChanged();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopService(new Intent(this, CacheService.class));
+        super.onDestroy();
     }
 
     private long exitTime = 0;

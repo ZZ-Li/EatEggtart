@@ -1,5 +1,7 @@
 package com.example.lzz.knowledge.ui.home;
 
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -58,6 +60,9 @@ public class ZhihuDailyFragment extends Fragment implements ZhihuDailyContract.V
         initViews(view);
 
         presenter.start();
+
+        ClipboardManager clipboardManager = (ClipboardManager)getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

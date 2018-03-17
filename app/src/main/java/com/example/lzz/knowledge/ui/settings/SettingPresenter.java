@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.v7.preference.Preference;
 
 import com.bumptech.glide.Glide;
+import com.example.lzz.knowledge.R;
 
 /**
  * Created by ASUS on 2018/3/7.
@@ -17,6 +18,7 @@ public class SettingPresenter implements SettingContract.Presenter {
     private Context context;
     private SettingContract.View view;
 
+    private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
     private static final int CLEAR_IMAGE_CACHE_DONE = 1;
@@ -39,7 +41,8 @@ public class SettingPresenter implements SettingContract.Presenter {
         this.context = context;
         this.view = view;
         this.view.setPresenter(this);
-        editor = context.getSharedPreferences("user_settings", Context.MODE_PRIVATE).edit();
+        sharedPreferences = context.getSharedPreferences("user_settings", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
     }
 
@@ -67,5 +70,25 @@ public class SettingPresenter implements SettingContract.Presenter {
             }
         }).start();
         Glide.get(context).clearMemory();
+    }
+
+    @Override
+    public void setTimeOfSavingArticles(Preference preference, String newValue) {
+        editor.putString("time_of_saving_articles", newValue);
+        editor.apply();
+    }
+
+    @Override
+    public String getTimeSummary() {
+        String[] options = context.getResources().getStringArray(R.array.time_to_save_opts);
+        String str = sharedPreferences.getString("time_of_saving_articles", "3");
+        switch (str){
+            case "1":
+                return options[0];
+            case "7":
+                return options[2];
+            default:
+                return options[1];
+        }
     }
 }

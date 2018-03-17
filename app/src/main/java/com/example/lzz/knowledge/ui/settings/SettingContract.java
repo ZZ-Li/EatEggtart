@@ -22,5 +22,9 @@ public interface SettingContract {
         void setNoPictureMode(Preference preference);
 
         void cleanImageCache();
+
+        void setTimeOfSavingArticles(Preference preference, String newValue);
+
+        String getTimeSummary();
     }
 }

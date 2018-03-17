@@ -22,6 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             + "zhihu_id integer not null,"
             + "zhihu_news text,"
             + "zhihu_time real,"
+            + "zhihu_content text,"
             + "bookmark integer default 0)");
 
         //db.execSQL("alter table Zhihu add column bookmark integer default 0");

@@ -11,6 +11,13 @@
             android:defaultValue="false"
             android:summary="@string/no_picture_mode_description" />
 
+        <android.support.v7.preference.ListPreference
+            android:title="@string/time_of_saving_articles"
+            android:key="time_of_saving_articles"
+            android:entries="@array/time_to_save_opts"
+            android:entryValues="@array/time_to_save_values"
+            android:defaultValue="3" />
+
     </android.support.v7.preference.PreferenceCategory>
 
     <android.support.v7.preference.PreferenceCategory

@@ -1,14 +1,19 @@
 package com.example.lzz.knowledge.ui.home;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.example.lzz.knowledge.bean.ZhihuDaily;
 import com.example.lzz.knowledge.db.DatabaseHelper;
+import com.example.lzz.knowledge.service.CacheService;
 import com.example.lzz.knowledge.ui.detail.DetailActivity;
 import com.example.lzz.knowledge.utils.API;
 import com.example.lzz.knowledge.utils.DateFormatTool;
@@ -48,7 +53,7 @@ public class ZhihuDailyPresenter implements ZhihuDailyContract.Presenter{
         this.context = context;
         this.view = view;
         this.view.setPresenter(this);
-        helper = new DatabaseHelper(context, "DataBase.db", null, 3);
+        helper = new DatabaseHelper(context, "DataBase.db", null, 4);
         db = helper.getWritableDatabase();
     }
 
@@ -92,7 +97,7 @@ public class ZhihuDailyPresenter implements ZhihuDailyContract.Presenter{
                                 ContentValues values = new ContentValues();
                                 for (ZhihuDaily.StoriesBean item : zhihuDaily.getStories()){
                                     list.add(item);
-                                    if (!queryIdExists(item.getId())){
+                                    if (!queryIdIsExists(item.getId())){
                                         db.beginTransaction();
                                         try {
                                             DateFormat format = new SimpleDateFormat("yyyyMMdd");
@@ -109,6 +114,11 @@ public class ZhihuDailyPresenter implements ZhihuDailyContract.Presenter{
                                             db.endTransaction();
                                         }
                                     }
+                                    Intent intent = new Intent("com.example.lzz.knowledge.LOCAL_BROADCAST");
+                                    intent.putExtra("type",CacheService.TYPE_ZHIHU);
+                                    intent.putExtra("id",item.getId());
+                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+
                                 }
 
                                 view.showResults(list);
@@ -164,7 +174,7 @@ public class ZhihuDailyPresenter implements ZhihuDailyContract.Presenter{
         context.startActivity(intent);
     }
 
-    private boolean queryIdExists(int id){
+    private boolean queryIdIsExists(int id){
         Cursor cursor = db.query("Zhihu",null,null,null,null,null,null);
         if (cursor.moveToFirst()){
             do {
@@ -173,11 +183,6 @@ public class ZhihuDailyPresenter implements ZhihuDailyContract.Presenter{
                 }
             } while (cursor.moveToNext());
         }
-//        if (cursor.moveToNext()){
-//            if (id == cursor.getInt(cursor.getColumnIndex("zhihu_id"))){
-//                return true;
-//            }
-//        }
         cursor.close();
         return false;
     }

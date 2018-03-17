@@ -20,6 +20,7 @@ import com.example.lzz.knowledge.bean.ZhihuDailyStory;
 import com.example.lzz.knowledge.db.DatabaseHelper;
 import com.example.lzz.knowledge.utils.API;
 import com.example.lzz.knowledge.utils.HttpUtil;
+import com.example.lzz.knowledge.utils.NetworkState;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -56,7 +57,7 @@ public class DetailPresenter implements DetailContract.Presenter {
         this.view.setPresenter(this);
 
         gson = new Gson();
-        helper = new DatabaseHelper(context, "DataBase.db", null,3);
+        helper = new DatabaseHelper(context, "DataBase.db", null,4);
         db = helper.getWritableDatabase();
         sharedPreferences = context.getSharedPreferences("user_settings",MODE_PRIVATE);
     }
@@ -210,37 +211,58 @@ public class DetailPresenter implements DetailContract.Presenter {
         view.setTitle(title);
         view.setImageMode(sharedPreferences.getBoolean("no_picture_mode", false));
 
-        HttpUtil.sendOKHttpRequest(API.ZHIHU_NEWS_DETAIL + id, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                view.stopLoading();
-                view.showLoadingError();
-            }
+        if (NetworkState.networkConnected(context)){
+            HttpUtil.sendOKHttpRequest(API.ZHIHU_NEWS_DETAIL + id, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    view.stopLoading();
+                    view.showLoadingError();
+                }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String result = response.body().string();
-                ((Activity)context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            zhihuDailyStory = gson.fromJson(result, ZhihuDailyStory.class);
-                            if (zhihuDailyStory.getBody() == null) {
-                                view.showResultWithoutBody(zhihuDailyStory.getShare_url());
-                            } else {
-                                view.showResult(convertZhihuContent(zhihuDailyStory.getBody()));
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+
+                    final String result = response.body().string();
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                zhihuDailyStory = gson.fromJson(result, ZhihuDailyStory.class);
+                                if (zhihuDailyStory.getBody() == null) {
+                                    view.showResultWithoutBody(zhihuDailyStory.getShare_url());
+                                } else {
+                                    view.showResult(convertZhihuContent(zhihuDailyStory.getBody()));
+                                }
+                                view.showCover(zhihuDailyStory.getImage());
+                            } catch (JsonSyntaxException e) {
+                                view.showLoadingError();
                             }
-                            view.showCover(zhihuDailyStory.getImage());
-                        } catch (JsonSyntaxException e) {
-                            view.showLoadingError();
+                            view.stopLoading();
                         }
-                        view.stopLoading();
+                    });
+
+                }
+            });
+
+        }else {
+            Cursor cursor = db.query("Zhihu",null,null,null,null,null,null);
+            if (cursor.moveToFirst()){
+                do {
+                    if (cursor.getInt(cursor.getColumnIndex("zhihu_id")) == id){
+                        String content = cursor.getString(cursor.getColumnIndex("zhihu_content"));
+                        Log.d("CacheServiceT", content);
+                        try{
+                            zhihuDailyStory = gson.fromJson(content, ZhihuDailyStory.class);
+                        }catch (JsonSyntaxException e){
+                            view.showResult(content);
+                        }
+                        view.showResult(convertZhihuContent(zhihuDailyStory.getBody()));
                     }
-                });
-
+                }while (cursor.moveToNext());
             }
-
-        });
+            cursor.close();
+            view.stopLoading();
+        }
 
     }
 

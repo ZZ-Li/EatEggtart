@@ -16,6 +16,8 @@ public class SettingFragment extends PreferenceFragmentCompat implements Setting
 
     private SettingContract.Presenter  presenter;
 
+    private Preference timePreference;
+
     public static SettingFragment newInstance(){
         return new SettingFragment();
     }
@@ -38,6 +40,17 @@ public class SettingFragment extends PreferenceFragmentCompat implements Setting
             public boolean onPreferenceClick(Preference preference) {
                 presenter.cleanImageCache();
                 return false;
+            }
+        });
+
+        timePreference = findPreference("time_of_saving_articles");
+        timePreference.setSummary(presenter.getTimeSummary());
+        timePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                presenter.setTimeOfSavingArticles(preference, (String)newValue);
+                timePreference.setSummary(presenter.getTimeSummary());
+                return true;
             }
         });
 

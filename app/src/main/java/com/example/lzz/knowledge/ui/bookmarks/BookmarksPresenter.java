@@ -32,7 +32,7 @@ public class BookmarksPresenter implements BookmarksContract.Presenter {
         this.view = view;
         this.view.setPresenter(this);
         gson = new Gson();
-        helper = new DatabaseHelper(context,"DataBase.db",null,3);
+        helper = new DatabaseHelper(context,"DataBase.db",null,4);
         db = helper.getWritableDatabase();
     }
 
