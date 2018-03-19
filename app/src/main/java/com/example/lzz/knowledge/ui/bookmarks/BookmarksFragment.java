@@ -20,6 +20,7 @@ import com.example.lzz.knowledge.R;
 import com.example.lzz.knowledge.adapter.BookmarksAdapter;
 import com.example.lzz.knowledge.adapter.OnBookmarkListOnClickListener;
 import com.example.lzz.knowledge.bean.ZhihuDaily;
+import com.example.lzz.knowledge.ui.home.MainActivity;
 
 import java.util.ArrayList;
 
@@ -36,9 +37,8 @@ public class BookmarksFragment extends Fragment implements BookmarksContract.Vie
 
     private boolean isEditing = false;
     private LinearLayout bottomLayout;
-    private AppCompatCheckBox selcetAll_cb;
     private TextView delete_tv;
-    private ArrayList deletedList = new ArrayList();
+    private ArrayList<Integer> deletedList = new ArrayList<Integer>();
 
     private BookmarksContract.Presenter presenter;
 
@@ -69,24 +69,11 @@ public class BookmarksFragment extends Fragment implements BookmarksContract.Vie
             }
         });
 
-        selcetAll_cb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (selcetAll_cb.isChecked()){
-                    adapter.selectAllCheckBox(true);
-                    adapter.notifyDataSetChanged();
-                }else {
-                    adapter.selectAllCheckBox(false);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-        });
-
-
         delete_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.deleteSelectedData(deletedList);
+                deletedList.clear();
             }
         });
 
@@ -110,7 +97,6 @@ public class BookmarksFragment extends Fragment implements BookmarksContract.Vie
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
         bottomLayout = (LinearLayout) getActivity().findViewById(R.id.bookmark_bottom_editor_layout);
-        selcetAll_cb = (AppCompatCheckBox)getActivity().findViewById(R.id.select_all_checkbox);
         delete_tv = (TextView)getActivity().findViewById(R.id.delete_textView) ;
 
         nothingLayout = (LinearLayout)view.findViewById(R.id.nothing_layout);
@@ -148,10 +134,13 @@ public class BookmarksFragment extends Fragment implements BookmarksContract.Vie
                 @Override
                 public void OnItemClick(View v, int position, boolean isCheck) {
                     if (isEditing){
+
                         if(isCheck){
                             deletedList.add(position);
+                        } else {
+                            deletedList.remove((Integer) position);
                         }
-                        //delete_tv.setBackgroundResource(R.color.rad);
+
                     }else {
                         presenter.startReading(position);
                     }
@@ -183,6 +172,18 @@ public class BookmarksFragment extends Fragment implements BookmarksContract.Vie
     @Override
     public void stopLoading() {
         refreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden){
+            if (bottomLayout.getVisibility() != View.GONE){
+                isEditing = false;
+                bottomLayout.setVisibility(View.GONE);
+                adapter.setShowDeletion(false);
+            }
+        }
     }
 
 }

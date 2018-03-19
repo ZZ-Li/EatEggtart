@@ -45,15 +45,6 @@
                 android:visibility="gone"
                 android:layout_alignParentBottom="true">
 
-                <android.support.v7.widget.AppCompatCheckBox
-                    android:id="@+id/select_all_checkbox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:text="@string/select_all"
-                    android:textSize="16sp"
-                    android:textColor="@color/textColorPrimary"/>
-
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"

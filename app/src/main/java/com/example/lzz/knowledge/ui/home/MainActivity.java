@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.lzz.knowledge.R;
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private LinearLayout bottomLayout;
 
     private MainFragment mainFragment;
     private MeizhiFragment meizhiFragment;
@@ -39,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        bottomLayout = (LinearLayout)findViewById(R.id.bookmark_bottom_editor_layout);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,toolbar,
                 R.string.navigation_drawer_open,
@@ -90,11 +94,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawers();
         if (item.getItemId() == R.id.nav_home){
             showMainFragment();
+
         } else if (item.getItemId() == R.id.nav_bookmarks){
             showBookmarksFragment();
+
         } else if (item.getItemId() == R.id.nav_settings){
             Intent intent = new Intent(MainActivity.this, SettingActivity.class);
             startActivity(intent);
+
         } else if (item.getItemId() == R.id.nav_about){
             Intent intent = new Intent(MainActivity.this, AboutActivity.class);
             startActivity(intent);
@@ -103,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void showMainFragment(){
+
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (!bookmarksFragment.isHidden()){
             fragmentTransaction.hide(bookmarksFragment);
@@ -111,6 +119,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.commit();
 
         toolbar.setTitle(getResources().getString(R.string.app_name));
+    }
+
+    private void showBookmarksFragment(){
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        if (!mainFragment.isHidden()){
+            fragmentTransaction.hide(mainFragment);
+        }
+        fragmentTransaction.show(bookmarksFragment);
+        fragmentTransaction.commit();
+
+        toolbar.setTitle(getResources().getString(R.string.nav_bookmarks));
+        if (bookmarksFragment.isAdded()){
+            bookmarksFragment.notifyDataChanged();
+        }
     }
 
 //    private void showMeizhiFragment(){
@@ -126,20 +148,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //
 //        toolbar.setTitle(getResources().getString(R.string.nav_image));
 //    }
-
-    private void showBookmarksFragment(){
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        if (!mainFragment.isHidden()){
-            fragmentTransaction.hide(mainFragment);
-        }
-        fragmentTransaction.show(bookmarksFragment);
-        fragmentTransaction.commit();
-
-        toolbar.setTitle(getResources().getString(R.string.nav_bookmarks));
-        if (bookmarksFragment.isAdded()){
-            bookmarksFragment.notifyDataChanged();
-        }
-    }
 
     @Override
     protected void onStart() {

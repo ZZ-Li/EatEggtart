@@ -29,7 +29,6 @@ public class BookmarksAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHol
     private OnBookmarkListOnClickListener mListener;
 
     private boolean isShowDeletion = false;
-    private boolean isSelectAll;
 
     public BookmarksAdapter(Context context, ArrayList<ZhihuDaily.StoriesBean> list) {
         this.context = context;
@@ -42,10 +41,6 @@ public class BookmarksAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public void setShowDeletion(boolean isShowDeletion){
         this.isShowDeletion = isShowDeletion;
-    }
-
-    public void selectAllCheckBox(boolean isSelectAll){
-        this.isSelectAll = isSelectAll;
     }
 
     @Override
@@ -71,13 +66,11 @@ public class BookmarksAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             if (isShowDeletion){
                 ((NormalViewHolder) holder).checkBox.setVisibility(View.VISIBLE);
+                ((NormalViewHolder) holder).checkBox.setChecked(false);
             }else {
                 ((NormalViewHolder) holder).checkBox.setVisibility(View.GONE);
             }
 
-            if (((NormalViewHolder) holder).checkBox.getVisibility() == View.VISIBLE){
-                ((NormalViewHolder) holder).checkBox.setChecked(isSelectAll);
-            }
         }
     }
 
