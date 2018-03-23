@@ -2,6 +2,7 @@ package com.example.lzz.knowledge.ui.home;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -10,9 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -28,10 +27,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private FloatingActionButton fab;
     private LinearLayout bottomLayout;
 
     private MainFragment mainFragment;
     private MeizhiFragment meizhiFragment;
+
+    private ZhihuDailyFragment zhihuDailyFragment;
     private BookmarksFragment bookmarksFragment;
 
     @Override
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         bottomLayout = (LinearLayout)findViewById(R.id.bookmark_bottom_editor_layout);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,toolbar,
@@ -55,18 +58,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (savedInstanceState != null){
             FragmentManager manager = getSupportFragmentManager();
-            mainFragment = (MainFragment)manager.getFragment(savedInstanceState, "MainFragment");
+            zhihuDailyFragment = (ZhihuDailyFragment) manager.getFragment(savedInstanceState, "ZhihuDailyFragment");
             bookmarksFragment = (BookmarksFragment)manager.getFragment(savedInstanceState,"BookmarksFragment");
 //            meizhiFragment = (MeizhiFragment)manager.getFragment(savedInstanceState, "MeizhiFragment");
         } else {
-            mainFragment = MainFragment.newInstance();
+            zhihuDailyFragment = ZhihuDailyFragment.newInstance();
             bookmarksFragment = BookmarksFragment.newInstance();
 //            meizhiFragment = MeizhiFragment.newInstance();
         }
 
-        if (!mainFragment.isAdded()) {
+        if (!zhihuDailyFragment.isAdded()) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.layout_fragment, mainFragment, "MainFragment")
+                    .add(R.id.layout_fragment, zhihuDailyFragment, "ZhihuDailyFragment")
                     .commit();
         }
 
@@ -82,9 +85,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .commit();
         }
 
+        new ZhihuDailyPresenter(MainActivity.this, zhihuDailyFragment);
         new BookmarksPresenter(MainActivity.this, bookmarksFragment);
 
-        showMainFragment();
+        showZhihuFragment();
 
         startService(new Intent(this, CacheService.class));
     }
@@ -93,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         drawerLayout.closeDrawers();
         if (item.getItemId() == R.id.nav_home){
-            showMainFragment();
+            showZhihuFragment();
 
         } else if (item.getItemId() == R.id.nav_bookmarks){
             showBookmarksFragment();
@@ -109,22 +113,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    private void showMainFragment(){
+    private void showZhihuFragment(){
+        fab.show();
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (!bookmarksFragment.isHidden()){
             fragmentTransaction.hide(bookmarksFragment);
         }
-        fragmentTransaction.show(mainFragment);
+        fragmentTransaction.show(zhihuDailyFragment);
         fragmentTransaction.commit();
+
 
         toolbar.setTitle(getResources().getString(R.string.app_name));
     }
 
     private void showBookmarksFragment(){
+        fab.hide();
+
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        if (!mainFragment.isHidden()){
-            fragmentTransaction.hide(mainFragment);
+        if (!zhihuDailyFragment.isHidden()){
+            fragmentTransaction.hide(zhihuDailyFragment);
         }
         fragmentTransaction.show(bookmarksFragment);
         fragmentTransaction.commit();
@@ -166,8 +174,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private long exitTime = 0;
     @Override
     public void onBackPressed() {
-        if (mainFragment.isHidden()){
-            showMainFragment();
+        if (zhihuDailyFragment.isHidden()){
+            showZhihuFragment();
             navigationView.setCheckedItem(R.id.nav_home);
         } else {
             if(System.currentTimeMillis() - exitTime > 2000) {
@@ -183,8 +191,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         FragmentManager manager = getSupportFragmentManager();
-        if (mainFragment.isAdded()){
-            manager.putFragment(outState, "MainFragment", mainFragment);
+        if (zhihuDailyFragment.isAdded()){
+            manager.putFragment(outState, "ZhihuDailyFragment", zhihuDailyFragment);
         }
         if (bookmarksFragment.isAdded()){
             manager.putFragment(outState,"BookmarksFragment", bookmarksFragment);

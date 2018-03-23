@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import com.example.lzz.knowledge.bean.ZhihuDaily;
 import com.example.lzz.knowledge.db.DatabaseHelper;
@@ -84,6 +85,7 @@ public class ZhihuDailyPresenter implements ZhihuDailyContract.Presenter{
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     final String result = response.body().string();
+                    Log.d("ZhihuDailyPresenter", "test:" + result);
                     ((Activity)context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

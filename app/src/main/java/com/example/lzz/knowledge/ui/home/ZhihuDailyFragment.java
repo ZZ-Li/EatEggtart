@@ -2,6 +2,7 @@ package com.example.lzz.knowledge.ui.home;
 
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -10,6 +11,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -18,6 +22,8 @@ import com.example.lzz.knowledge.R;
 import com.example.lzz.knowledge.adapter.ZhihuDailyAdapter;
 import com.example.lzz.knowledge.bean.ZhihuDaily;
 import com.example.lzz.knowledge.adapter.OnRecyclerViewOnClickListener;
+import com.example.lzz.knowledge.ui.about.AboutActivity;
+import com.example.lzz.knowledge.ui.settings.SettingActivity;
 import com.example.lzz.knowledge.utils.DateFormatTool;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -58,6 +64,8 @@ public class ZhihuDailyFragment extends Fragment implements ZhihuDailyContract.V
         View view = inflater.inflate(R.layout.fragment_list, container, false);
 
         initViews(view);
+
+        setHasOptionsMenu(true);
 
         presenter.start();
 
@@ -154,6 +162,25 @@ public class ZhihuDailyFragment extends Fragment implements ZhihuDailyContract.V
 
         fab = (FloatingActionButton)getActivity().findViewById(R.id.fab);
         tabLayout = (TabLayout)getActivity().findViewById(R.id.tab_layout);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.main_settings:
+                startActivity(new Intent(getActivity(), SettingActivity.class));
+                break;
+            case R.id.main_about:
+                startActivity(new Intent(getActivity(), AboutActivity.class));
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
