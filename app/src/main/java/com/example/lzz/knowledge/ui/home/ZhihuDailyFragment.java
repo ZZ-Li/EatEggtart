@@ -77,6 +77,14 @@ public class ZhihuDailyFragment extends Fragment implements ZhihuDailyContract.V
             }
         });
 
+        LinearLayoutManager manager = (LinearLayoutManager)recyclerView.getLayoutManager();
+        int totalItemCount = manager.getItemCount();
+        if (totalItemCount < 6){
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(mYear, mMonth, --mDay);
+            presenter.loadMore(formatTool.ZhihuDailyDateFormat(calendar.getTimeInMillis()));
+        }
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             boolean isSlidingToLast = false;
 
@@ -87,7 +95,7 @@ public class ZhihuDailyFragment extends Fragment implements ZhihuDailyContract.V
                     int lastVisibleItem = manager.findLastCompletelyVisibleItemPosition();
                     int totalItemCount = manager.getItemCount();
 
-                    if (lastVisibleItem == (totalItemCount - 1) && isSlidingToLast){
+                    if (lastVisibleItem == (totalItemCount - 1)){
                         Calendar calendar = Calendar.getInstance();
                         calendar.set(mYear, mMonth, --mDay);
                         presenter.loadMore(formatTool.ZhihuDailyDateFormat(calendar.getTimeInMillis()));
@@ -112,32 +120,31 @@ public class ZhihuDailyFragment extends Fragment implements ZhihuDailyContract.V
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tabLayout.getSelectedTabPosition() == 0){
-                    Calendar now = Calendar.getInstance();
-                    now.set(mYear, mMonth, mDay);
-                    DatePickerDialog dialog = DatePickerDialog.newInstance(new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                            mYear = year;
-                            mMonth = monthOfYear;
-                            mDay = dayOfMonth;
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.clear();
-                            calendar.set(year, monthOfYear, dayOfMonth);
-                            presenter.loadData(formatTool.ZhihuDailyDateFormat(calendar.getTimeInMillis()),
-                                    false);
-                        }
-                    }, now.get(Calendar.YEAR),now.get(Calendar.MONTH),now.get(Calendar.DAY_OF_MONTH));
+                Calendar now = Calendar.getInstance();
+                now.set(mYear, mMonth, mDay);
+                DatePickerDialog dialog = DatePickerDialog.newInstance(new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                        mYear = year;
+                        mMonth = monthOfYear;
+                        mDay = dayOfMonth;
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.clear();
+                        calendar.set(year, monthOfYear, dayOfMonth);
+                        presenter.loadData(formatTool.ZhihuDailyDateFormat(calendar.getTimeInMillis()),
+                                false);
+                    }
+                }, now.get(Calendar.YEAR),now.get(Calendar.MONTH),now.get(Calendar.DAY_OF_MONTH));
 
-                    dialog.setMaxDate(Calendar.getInstance());
-                    Calendar minDate = Calendar.getInstance();
-                    // 2013.5.20是知乎日报api首次上线
-                    minDate.set(2013,5,20);
-                    dialog.setMinDate(minDate);
-                    dialog.vibrate(false);
+                dialog.setMaxDate(Calendar.getInstance());
+                Calendar minDate = Calendar.getInstance();
+                // 2013.5.20是知乎日报api首次上线
+                minDate.set(2013,5,20);
+                dialog.setMinDate(minDate);
+                dialog.vibrate(false);
 
-                    dialog.show(getActivity().getFragmentManager(), "DatePickDialog");
-                }
+                dialog.show(getActivity().getFragmentManager(), "DatePickDialog");
+
             }
         });
 

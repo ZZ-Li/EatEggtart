@@ -26,5 +26,6 @@ public interface SettingContract {
         void setTimeOfSavingArticles(Preference preference, String newValue);
 
         String getTimeSummary();
+
     }
 }

@@ -1,12 +1,17 @@
 package com.example.lzz.knowledge.ui.settings;
 
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.lzz.knowledge.R;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by ASUS on 2018/3/6.
@@ -58,9 +63,9 @@ public class SettingFragment extends PreferenceFragmentCompat implements Setting
 
     @Override
     public void setPresenter(SettingContract.Presenter presenter) {
-        if (presenter != null){
-            this.presenter = presenter;
-        }
+
+        this.presenter = presenter;
+
     }
 
     @Override

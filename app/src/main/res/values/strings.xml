@@ -42,6 +42,9 @@
     <string name="no_picture_mode">无图模式</string>
     <string name="no_picture_mode_description">阅读时不再加载图片</string>
     <string name="time_of_saving_articles">文章保存时间</string>
+    <string name="change_theme">切换主题</string>
+    <string name="day_mode">日间模式</string>
+    <string name="night_mode">夜间模式</string>
     <string name="other_settings">其他设置</string>
     <string name="clear_image_cache">清除图片缓存</string>
     <string name="clear_image_cache_successfully">清理成功</string>

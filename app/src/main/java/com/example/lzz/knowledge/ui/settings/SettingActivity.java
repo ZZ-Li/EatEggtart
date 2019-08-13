@@ -1,5 +1,7 @@
 package com.example.lzz.knowledge.ui.settings;
 
+import android.os.PersistableBundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +10,8 @@ import android.view.MenuItem;
 import com.example.lzz.knowledge.R;
 
 public class SettingActivity extends AppCompatActivity {
+
+    private SettingFragment settingFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,11 +23,17 @@ public class SettingActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        SettingFragment settingFragment = SettingFragment.newInstance();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, settingFragment)
-                .commit();
+        if (savedInstanceState != null){
+            FragmentManager manager = getSupportFragmentManager();
+            settingFragment = (SettingFragment)manager.getFragment(savedInstanceState,"settingFragment");
+        }else {
+            settingFragment = SettingFragment.newInstance();
 
+        }
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.container, settingFragment,"settingFragment")
+                .commit();
         new SettingPresenter(SettingActivity.this, settingFragment);
     }
 
@@ -34,5 +44,14 @@ public class SettingActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        FragmentManager manager = getSupportFragmentManager();
+        if (settingFragment.isAdded()){
+            manager.putFragment(outState,"settingFragment", settingFragment);
+        }
     }
 }

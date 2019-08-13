@@ -58,7 +58,7 @@ public class BookmarksFragment extends Fragment implements BookmarksContract.Vie
 
         initViews(view);
 
-        setHasOptionsMenu(true);
+        //setHasOptionsMenu(true);
 
         presenter.loadData(false);
 
@@ -110,18 +110,18 @@ public class BookmarksFragment extends Fragment implements BookmarksContract.Vie
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_bookmark_editor){
-            if (!isEditing){
-                isEditing = true;
-                bottomLayout.setVisibility(View.VISIBLE);
-                adapter.setShowDeletion(true);
-            }else {
-                isEditing = false;
-                bottomLayout.setVisibility(View.GONE);
-                adapter.setShowDeletion(false);
-            }
-            adapter.notifyDataSetChanged();
-        }
+//        if (item.getItemId() == R.id.action_bookmark_editor){
+//            if (!isEditing){
+//                isEditing = true;
+//                bottomLayout.setVisibility(View.VISIBLE);
+//                adapter.setShowDeletion(true);
+//            }else {
+//                isEditing = false;
+//                bottomLayout.setVisibility(View.GONE);
+//                adapter.setShowDeletion(false);
+//            }
+//            adapter.notifyDataSetChanged();
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -172,6 +172,15 @@ public class BookmarksFragment extends Fragment implements BookmarksContract.Vie
     @Override
     public void stopLoading() {
         refreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void hideDeleteBottomLayout() {
+        if (bottomLayout.getVisibility() != View.GONE){
+            isEditing = false;
+            bottomLayout.setVisibility(View.GONE);
+            adapter.setShowDeletion(false);
+        }
     }
 
     @Override

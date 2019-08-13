@@ -2,12 +2,17 @@ package com.example.lzz.knowledge.ui.settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.preference.Preference;
 
 import com.bumptech.glide.Glide;
 import com.example.lzz.knowledge.R;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by ASUS on 2018/3/7.
@@ -23,6 +28,7 @@ public class SettingPresenter implements SettingContract.Presenter {
 
     private static final int CLEAR_IMAGE_CACHE_DONE = 1;
 
+    @SuppressWarnings("HandlerLeak")
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -91,4 +97,5 @@ public class SettingPresenter implements SettingContract.Presenter {
                 return options[1];
         }
     }
+
 }

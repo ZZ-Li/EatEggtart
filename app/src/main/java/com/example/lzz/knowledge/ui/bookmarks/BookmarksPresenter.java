@@ -91,6 +91,7 @@ public class BookmarksPresenter implements BookmarksContract.Presenter {
             }
         }
 
+        view.hideDeleteBottomLayout();
         view.notifyDataChanged();
     }
 

@@ -22,6 +22,8 @@ public interface BookmarksContract {
 
         void stopLoading();
 
+        void hideDeleteBottomLayout();
+
     }
 
     interface Presenter extends BasePresenter{
