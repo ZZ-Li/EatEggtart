@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -23,6 +24,8 @@ import com.example.lzz.knowledge.ui.bookmarks.BookmarksPresenter;
 import com.example.lzz.knowledge.ui.settings.SettingActivity;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
+    private static final String TAG = "MainActivity";
 
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -39,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d("MainActivity", "MainActivity init");
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -58,11 +63,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FragmentManager manager = getSupportFragmentManager();
             zhihuDailyFragment = (ZhihuDailyFragment) manager.getFragment(savedInstanceState, "ZhihuDailyFragment");
             bookmarksFragment = (BookmarksFragment)manager.getFragment(savedInstanceState,"BookmarksFragment");
-//            meizhiFragment = (MeizhiFragment)manager.getFragment(savedInstanceState, "MeizhiFragment");
+            meizhiFragment = (MeizhiFragment)manager.getFragment(savedInstanceState, "MeizhiFragment");
         } else {
             zhihuDailyFragment = ZhihuDailyFragment.newInstance();
             bookmarksFragment = BookmarksFragment.newInstance();
-//            meizhiFragment = MeizhiFragment.newInstance();
+            meizhiFragment = MeizhiFragment.newInstance();
         }
 
         if (!zhihuDailyFragment.isAdded()) {
@@ -100,7 +105,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (item.getItemId() == R.id.nav_bookmarks){
             showBookmarksFragment();
 
-        } else if (item.getItemId() == R.id.nav_settings){
+        }
+//        else if (item.getItemId() == R.id.nav_image){
+//            showMeizhiFragment();
+//
+//        }
+        else if (item.getItemId() == R.id.nav_settings){
             Intent intent = new Intent(MainActivity.this, SettingActivity.class);
             startActivity(intent);
 
@@ -118,6 +128,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (!bookmarksFragment.isHidden()){
             fragmentTransaction.hide(bookmarksFragment);
         }
+//        if (!meizhiFragment.isHidden()){
+//            fragmentTransaction.hide(meizhiFragment);
+//        }
         fragmentTransaction.show(zhihuDailyFragment);
         fragmentTransaction.commit();
 
@@ -129,9 +142,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab.hide();
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
         if (!zhihuDailyFragment.isHidden()){
             fragmentTransaction.hide(zhihuDailyFragment);
         }
+//        if (!meizhiFragment.isHidden()){
+//            fragmentTransaction.hide(meizhiFragment);
+//        }
+
         fragmentTransaction.show(bookmarksFragment);
         fragmentTransaction.commit();
 
@@ -141,19 +159,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-//    private void showMeizhiFragment(){
-//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        if (!mainFragment.isHidden()){
-//            fragmentTransaction.hide(mainFragment);
-//        }
-//        if (!bookmarksFragment.isHidden()){
-//            fragmentTransaction.hide(bookmarksFragment);
-//        }
-//        fragmentTransaction.show(meizhiFragment);
-//        fragmentTransaction.commit();
-//
-//        toolbar.setTitle(getResources().getString(R.string.nav_image));
-//    }
+    private void showMeizhiFragment(){
+        fab.hide();
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        if (!zhihuDailyFragment.isHidden()){
+            fragmentTransaction.hide(zhihuDailyFragment);
+        }
+        if (!bookmarksFragment.isHidden()){
+            fragmentTransaction.hide(bookmarksFragment);
+        }
+        fragmentTransaction.show(meizhiFragment);
+        fragmentTransaction.commit();
+
+        toolbar.setTitle(getResources().getString(R.string.nav_image));
+    }
 
     @Override
     protected void onStart() {
@@ -195,9 +215,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (bookmarksFragment.isAdded()){
             manager.putFragment(outState,"BookmarksFragment", bookmarksFragment);
         }
-//        if (meizhiFragment.isAdded()){
-//            manager.putFragment(outState, "MeizhiFragment", meizhiFragment);
-//        }
+        if (meizhiFragment.isAdded()){
+            manager.putFragment(outState, "MeizhiFragment", meizhiFragment);
+        }
     }
 
 }

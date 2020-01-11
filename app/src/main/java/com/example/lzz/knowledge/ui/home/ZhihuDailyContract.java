@@ -18,6 +18,8 @@ public interface ZhihuDailyContract {
 
         void stopLoading();
 
+        void loadMorePage();
+
         void showResults(ArrayList<ZhihuDaily.StoriesBean> list);
 
     }

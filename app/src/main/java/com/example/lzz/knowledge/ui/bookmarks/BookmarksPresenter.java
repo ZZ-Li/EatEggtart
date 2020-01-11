@@ -20,6 +20,8 @@ import java.util.ArrayList;
 
 public class BookmarksPresenter implements BookmarksContract.Presenter {
 
+    private static final String TAG = "BookmarksPresenter";
+
     private Context context;
     private BookmarksContract.View view;
 
@@ -53,8 +55,11 @@ public class BookmarksPresenter implements BookmarksContract.Presenter {
         checkForFreshData();
 
         view.showResults(list);
+        Log.d(TAG, "showResults list" + list);
 
         view.stopLoading();
+
+        Log.d(TAG, "loadData");
     }
 
     @Override

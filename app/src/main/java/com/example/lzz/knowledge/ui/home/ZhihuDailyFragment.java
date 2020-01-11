@@ -4,12 +4,14 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,6 +37,8 @@ import java.util.Calendar;
  */
 
 public class ZhihuDailyFragment extends Fragment implements ZhihuDailyContract.View{
+
+    private static final String TAG = ZhihuDailyFragment.class.getSimpleName();
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout refreshLayout;
@@ -76,14 +80,6 @@ public class ZhihuDailyFragment extends Fragment implements ZhihuDailyContract.V
                 presenter.refresh();
             }
         });
-
-        LinearLayoutManager manager = (LinearLayoutManager)recyclerView.getLayoutManager();
-        int totalItemCount = manager.getItemCount();
-        if (totalItemCount < 6){
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(mYear, mMonth, --mDay);
-            presenter.loadMore(formatTool.ZhihuDailyDateFormat(calendar.getTimeInMillis()));
-        }
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             boolean isSlidingToLast = false;
@@ -149,6 +145,19 @@ public class ZhihuDailyFragment extends Fragment implements ZhihuDailyContract.V
         });
 
         return view;
+    }
+
+    @Override
+    public void loadMorePage() {
+        LinearLayoutManager manager = (LinearLayoutManager)recyclerView.getLayoutManager();
+        int totalItemCount = manager.getItemCount();
+        Log.d(TAG, "totalItemCount " + totalItemCount);
+
+        if (totalItemCount < 6){
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(mYear, mMonth, --mDay);
+            presenter.loadMore(formatTool.ZhihuDailyDateFormat(calendar.getTimeInMillis()));
+        }
     }
 
     @Override

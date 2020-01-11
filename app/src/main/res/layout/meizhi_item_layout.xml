@@ -9,13 +9,23 @@
     <!--app:cardCornerRadius="2dp"-->
     <!--app:cardElevation="2dp">-->
 
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp"
+    android:background="#ffffff"
+    android:paddingTop="4dp">
+
     <ImageView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/meizhi_image_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="4dp"
-        android:layout_margin="4dp"
+        android:minHeight="200dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         />
+
+</RelativeLayout>
 

@@ -50,42 +50,12 @@ public class MeizhiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Meizhi.ResultsBean item = list.get(position);
-        final ImageView imageView = ((ViewHolder) holder).imageView;
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics dm = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(dm);
-        final int mWidth = dm.widthPixels / 2;
 
         if (holder instanceof ViewHolder){
             Glide.with(context)
                     .load(item.getUrl())
                     .asBitmap()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .listener(new RequestListener<String, Bitmap>() {
-                        @Override
-                        public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                            int width = resource.getWidth();
-                            int height = resource.getHeight();
-                            float scale = (float)width / (float) mWidth;
-                            int mHeight = (int)(height * scale);
-                            ViewGroup.LayoutParams params = imageView.getLayoutParams();
-                            if (width > mWidth){
-                                params.width = mWidth;
-                                params.height = mHeight;
-                            } else {
-                                params.width = width;
-                                params.height = height;
-                            }
-                            imageView.setLayoutParams(params);
-                            return false;
-                        }
-                    })
-                    .thumbnail(0.5f)
                     .error(R.drawable.image_load_error)
                     .into(((ViewHolder) holder).imageView);
         }

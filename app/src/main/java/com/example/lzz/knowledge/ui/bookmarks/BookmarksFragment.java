@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +30,10 @@ import java.util.ArrayList;
  */
 
 public class BookmarksFragment extends Fragment implements BookmarksContract.View{
+
+    private static final String TAG = "BookmarksFragment";
+
+    private View view;
 
     private RecyclerView recyclerView;
     private BookmarksAdapter adapter;
@@ -54,11 +59,18 @@ public class BookmarksFragment extends Fragment implements BookmarksContract.Vie
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_list, container, false);
+        if (view != null){
+            ViewGroup parent = (ViewGroup)view.getParent();
+            if (parent != null){
+                parent.removeView(view);
+            }
+        }
+
+        view = inflater.inflate(R.layout.fragment_list, container, false);
 
         initViews(view);
 
-        //setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
 
         presenter.loadData(false);
 
@@ -96,10 +108,12 @@ public class BookmarksFragment extends Fragment implements BookmarksContract.Vie
         refreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.refresh_layout);
         refreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
-        bottomLayout = (LinearLayout) getActivity().findViewById(R.id.bookmark_bottom_editor_layout);
-        delete_tv = (TextView)getActivity().findViewById(R.id.delete_textView) ;
+        bottomLayout = (LinearLayout)view.findViewById(R.id.bookmark_bottom_editor_layout);
+        delete_tv = (TextView)view.findViewById(R.id.delete_textView) ;
 
         nothingLayout = (LinearLayout)view.findViewById(R.id.nothing_layout);
+
+        Log.d(TAG, "init view");
     }
 
     @Override
@@ -110,18 +124,18 @@ public class BookmarksFragment extends Fragment implements BookmarksContract.Vie
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        if (item.getItemId() == R.id.action_bookmark_editor){
-//            if (!isEditing){
-//                isEditing = true;
-//                bottomLayout.setVisibility(View.VISIBLE);
-//                adapter.setShowDeletion(true);
-//            }else {
-//                isEditing = false;
-//                bottomLayout.setVisibility(View.GONE);
-//                adapter.setShowDeletion(false);
-//            }
-//            adapter.notifyDataSetChanged();
-//        }
+        if (item.getItemId() == R.id.action_bookmark_editor){
+            if (!isEditing){
+                isEditing = true;
+                bottomLayout.setVisibility(View.VISIBLE);
+                adapter.setShowDeletion(true);
+            }else {
+                isEditing = false;
+                bottomLayout.setVisibility(View.GONE);
+                adapter.setShowDeletion(false);
+            }
+            adapter.notifyDataSetChanged();
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -186,11 +200,17 @@ public class BookmarksFragment extends Fragment implements BookmarksContract.Vie
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        Log.d(TAG, "isHidden : " + hidden);
+
         if (hidden){
             if (bottomLayout.getVisibility() != View.GONE){
                 isEditing = false;
                 bottomLayout.setVisibility(View.GONE);
                 adapter.setShowDeletion(false);
+            }
+
+            if (deletedList.size() != 0){
+                deletedList.clear();
             }
         }
     }
